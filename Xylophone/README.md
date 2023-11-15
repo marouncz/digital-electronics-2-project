@@ -1,4 +1,4 @@
-# DE2 project - Electronically controlled xylophone
+# DE2 project - Synthesizer
 ### Team members
 
 * Marek Coufal (responsible for ...)
@@ -26,3 +26,8 @@ Write an instruction manual for your application, including photos and a link to
 
 1. Write your text here.
 2. ...
+
+## TO-DO
+1. Zeptat se Fryzy zda muzeme custom projekt
+2. Rozvrhnout si práci
+3.
