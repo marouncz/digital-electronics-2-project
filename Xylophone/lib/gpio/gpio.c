@@ -56,7 +56,6 @@ void GPIO_write_low(volatile uint8_t *reg, uint8_t pin)
     *reg = *reg & ~(1<<pin);
 }
 
-
 /**********************************************************************
  * Function: GPIO_write_high()
  * Purpose:  Write one pin to high value.
@@ -109,3 +108,5 @@ void GPIO_write_toggle(volatile uint8_t *reg, uint8_t pin)
 {
     *reg = *reg ^ (1<<pin);
 }
+
+

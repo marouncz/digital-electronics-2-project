@@ -1,18 +1,50 @@
+// Main page of Doxygen manual
+/**
+ * @mainpage Electronically controlled xylophone
+ * 
+ * Firmware for controling xylophone, capable of producing different tones
+ * and melodies. Consisting of oled display as GUI, 
+ * shift register library for pin extension and user buttons handling.
+ * 
+ * Student project ran within a bachelor course Digital
+ * Electronics 2 at Brno University of Technology, Czechia.
+ * 
+ * ATmega328P (Arduino Uno), 16 MHz, PlatformIO
+ * 
+ * @author Marek Coufal, Miloslav Kužela, Martin Ťavoda, Roman Vaněk (using dependencies created by Peter Fleury, Michael Köhler, Tomas Fryza) 
+ * @copyright (c) 2023 Marek Coufal, Miloslav Kužela, Martin Ťavoda, Roman Vaněk, This work is licensed under 
+ *                the terms of the MIT license
+ */
 
 
-// put function declarations here:
-int myFunction(int, int);
+/* Defines -----------------------------------------------------------*/
+#ifndef F_CPU
+# define F_CPU 16000000  // CPU frequency in Hz required for UART_BAUD_SELECT
+#endif
 
-void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+/* Includes ----------------------------------------------------------*/
+// System library headers
+#include <avr/io.h>         // AVR device-specific IO definitions
+#include <avr/interrupt.h>  // Interrupts standard C library for AVR-GCC
+#include <stdlib.h>         // C library. Needed for number conversions
+// Project specific library headers
+#include "timer.h"          // Timer library for AVR-GCC
+#include "twi.h"            // I2C/TWI library for AVR-GCC
+#include "oled.h"           // Michael Köhler's OLED library
+
+
+/* Function definitions ----------------------------------------------*/
+int main(void)
+{
+
+    // Main loop
+    for(;;)
+    {
+        
+    }
+
+    // Will never reach this
+    return 0;
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
-}
-
-
-int myFunction(int x, int y) {
-  return x + y;
-}
+/* Interrupt service routines ----------------------------------------*/
