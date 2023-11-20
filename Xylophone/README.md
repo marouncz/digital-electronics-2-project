@@ -34,7 +34,7 @@ Write an instruction manual for your application, including photos and a link to
 
 ## Contribution guide
 
-Your function should be documented in doxygen supported syntax.
+Your code should be documented in doxygen supported syntax.
 > **Note:** For full introduction doxygen documentation see [here](https://embeddedinventor.com/guide-to-configure-doxygen-to-document-c-source-code-for-beginners/).
 
 Here is and example of a Doxygen type documentation for function xylophone:
