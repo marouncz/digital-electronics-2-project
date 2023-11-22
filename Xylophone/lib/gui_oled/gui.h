@@ -43,3 +43,10 @@
  */
 void gui_init(void);
 
+/**
+ * @brief Display pressed button on display
+ * 
+ * @param button_num button number = <1, 8>
+ * @return none
+ */
+void gui_set_button(uint8_t button_num);

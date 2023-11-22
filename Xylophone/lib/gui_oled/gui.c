@@ -22,11 +22,26 @@ void gui_init(void)
     oled_clrscr();
 
     // Default look init
-    oled_charMode(DOUBLESIZE);
-    oled_gotoxy(0, 2);
+    // User buttons
+    oled_gotoxy(3, 0);
     oled_puts("PLAY");
-    oled_gotoxy(0, 10);
+    oled_gotoxy(13, 0);
     oled_puts("RECORD");
+    
+    oled_drawLine(0, 11, DISPLAY_WIDTH, 11, WHITE);
+
+    // Available tone on xylophone
+    oled_gotoxy(3, 2);
+    oled_puts("1 ");
+    oled_puts("2 ");
+    oled_puts("3 ");
+    oled_puts("4 ");
+    oled_puts("5 ");
+    oled_puts("6 ");
+    oled_puts("7 ");
+    oled_puts("8 ");
+    
+    oled_drawLine(0, 3 + 2*11, DISPLAY_WIDTH, 3 + 2*11, WHITE);
 
     // Copy buffer to display RAM
     oled_display();
