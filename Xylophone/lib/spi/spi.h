@@ -5,6 +5,6 @@
 
 void initSPI(void);
 
-void transmitSPI(volatile unit8_t *data);
+void transmitSPI(volatile uint8_t *data);
 
 #endif
