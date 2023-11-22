@@ -105,6 +105,12 @@ void GPIO_write_toggle(volatile uint8_t *reg, uint8_t pin);
  */
 void GPIO_setup_xylophone();
 
+/**
+ * @brief Reads all pins and saves the outputs to an array
+ * @return Pins array
+ */
+uint8_t GPIO_read_pins();
+
 /** @} */
 
 #endif
