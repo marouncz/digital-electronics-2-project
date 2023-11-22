@@ -99,6 +99,11 @@ void GPIO_mode_input_nopull(volatile uint8_t *reg, uint8_t pin);
 */
 void GPIO_write_toggle(volatile uint8_t *reg, uint8_t pin);
 
+/**
+ * @brief Sets up pin directions and pull-ups for use with xylophone
+ * @return none
+ */
+void GPIO_setup_xylophone();
 
 /** @} */
 

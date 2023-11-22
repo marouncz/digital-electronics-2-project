@@ -30,11 +30,15 @@
 // Project specific library headers
 #include "timer.h"          // Timer library for AVR-GCC
 #include "gui.h"            // GUI library for oled display
+#include "gpio.h"           // Custom library for GPIO pin setup
+#include "pin_definition.h" // Pin definitions
 
 /* Function definitions ----------------------------------------------*/
 int main(void)
 {
-
+    // Init GUI on oled display
+    gui_init();
+    GPIO_setup_xylophone(); // Pin direction setup
     // Main loop
     for(;;)
     {
@@ -46,3 +50,11 @@ int main(void)
 }
 
 /* Interrupt service routines ----------------------------------------*/
+ISR(TIMER1_OVF_vect)
+{
+    static uint8_t tone = 0;
+    
+
+    tone++;
+    if(tone > 7) tone = 0;    
+}
