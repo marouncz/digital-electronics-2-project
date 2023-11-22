@@ -15,6 +15,7 @@ Enter a description of the problem and how to solve it.
 Insert descriptive text and schematic(s) of your implementation.
 
 ## Software description
+Full software doxygen documentation available at [Xylophone DOC](https://marouncz.github.io/digital-electronics-2-project/).
 
 Put flowchats of your algorithm(s) and direct links to source files in `src` or `lib` folders.
 
