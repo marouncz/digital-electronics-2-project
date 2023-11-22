@@ -30,10 +30,17 @@
 // Project specific library headers
 #include "timer.h"          // Timer library for AVR-GCC
 #include "gui.h"            // GUI library for oled display
+#include "spi.h"
+#include "gpio.h"
 
 /* Function definitions ----------------------------------------------*/
 int main(void)
 {
+    initSPI();
+
+    TIM1_OVF_1SEC;
+    TIM1_OVF_ENABLE;
+    sei();
 
     // Main loop
     for(;;)
@@ -49,7 +56,13 @@ int main(void)
 ISR(TIMER1_OVF_vect)
 {
     static uint8_t tone = 0;
+
+    static uint8_t data = 0;
+    data = 1<<tone;
     
+    GPIO_write_low(&PORTB, 2);
+    transmitSPI(&data);   
+    GPIO_write_high(&PORTB, 2); 
 
     tone++;
     if(tone > 7) tone = 0;    
