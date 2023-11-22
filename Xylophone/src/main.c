@@ -34,6 +34,8 @@
 /* Function definitions ----------------------------------------------*/
 int main(void)
 {
+    // Init GUI on oled display
+    gui_init();
 
     // Main loop
     for(;;)
