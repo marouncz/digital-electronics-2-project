@@ -1,4 +1,5 @@
 # DE2 project - Synthesizer
+The student project operated within the Bachelor's program of [Digital Electronics 2](https://github.com/tomas-fryza/digital-electronics-2/tree/master/labs/09-project) at Brno University of Technology.
 ### Team members
 
 * Marek Coufal (responsible for ...)
