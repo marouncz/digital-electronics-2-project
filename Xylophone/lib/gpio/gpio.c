@@ -114,8 +114,21 @@ void GPIO_setup_xylophone()
 {
     uint8_t pins[12] = {C1, D, E, F, G, A, H, C2, left_btn, right_btn, enter_btn, switch_btn};
     volatile uint8_t *registers[12] = {&DDRB, &DDRB, &DDRD, &DDRD, &DDRD, &DDRD, &DDRD, &DDRD, &DDRC, &DDRC, &DDRC, &DDRC};
-    for (int i; i<12; i++)
+    for(int i; i<12; i++)
     {
         GPIO_mode_input_pullup(registers[i], pins[i]);
     }
+}
+
+uint8_t READ_pins()
+{
+    uint8_t pins[12] = {C1, D, E, F, G, A, H, C2, left_btn, right_btn, enter_btn, switch_btn};
+    volatile uint8_t *registers[12] = {&DDRB, &DDRB, &DDRD, &DDRD, &DDRD, &DDRD, &DDRD, &DDRD, &DDRC, &DDRC, &DDRC, &DDRC};
+    uint8_t out[12];
+
+    for(int i; i<12; i++)
+    {
+        out[i] = GPIO_read(registers[i], pins[i]);
+    }
+    return out;
 }
