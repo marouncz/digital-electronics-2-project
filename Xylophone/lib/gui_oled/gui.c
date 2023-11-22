@@ -27,4 +27,7 @@ void gui_init(void)
     oled_puts("PLAY");
     oled_gotoxy(0, 10);
     oled_puts("RECORD");
+
+    // Copy buffer to display RAM
+    oled_display();
 }
