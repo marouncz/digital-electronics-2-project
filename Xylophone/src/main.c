@@ -46,3 +46,11 @@ int main(void)
 }
 
 /* Interrupt service routines ----------------------------------------*/
+ISR(TIMER1_OVF_vect)
+{
+    static uint8_t tone = 0;
+    
+
+    tone++;
+    if(tone > 7) tone = 0;    
+}
