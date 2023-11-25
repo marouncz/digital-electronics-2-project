@@ -33,6 +33,9 @@
 #include "oled.h"           // Michael Köhler's OLED library
 
 /* Defines -----------------------------------------------------------*/
+#define GUI_DISP_STATES_POS 0
+#define GUI_DISP_LINE1_POS 11
+#define GUI_DISP_LINE2_POS 25
 
 /* Function prototypes -----------------------------------------------*/
 /**
@@ -44,9 +47,15 @@
 void gui_init(void);
 
 /**
+ * @brief Resets line for displaying presed tone buttons
+ * @return none
+ */
+void gui_clr_buttons(void);
+
+/**
  * @brief Display pressed button on display
  * 
- * @param button_num button number = <1, 8>
+ * @param button_num button number = <0, 7>
  * @return none
  */
 void gui_set_button(uint8_t button_num);

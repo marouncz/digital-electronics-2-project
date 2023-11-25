@@ -14,6 +14,14 @@
 /* Includes ----------------------------------------------------------*/
 #include "gui.h"
 
+/* Local variables ---------------------------------------------------*/
+const char* _button_Bstrs[] = {
+    "1", "2", "3", "4", "5", "6", "7", "8"
+};
+const char* _button_strs[] = {
+    "1", "2", "3", "4", "5", "6", "7", "8"
+};
+
 /* Function definitions ----------------------------------------------*/
 void gui_init(void)
 {
@@ -22,27 +30,35 @@ void gui_init(void)
     oled_clrscr();
 
     // Default look init
-    // User buttons
-    oled_gotoxy(3, 0);
+    // State buttons
+    oled_gotoxy(3, GUI_DISP_STATES_POS);
     oled_puts("PLAY");
-    oled_gotoxy(13, 0);
+    oled_gotoxy(13, GUI_DISP_STATES_POS);
     oled_puts("RECORD");
     
-    oled_drawLine(0, 11, DISPLAY_WIDTH, 11, WHITE);
+    oled_drawLine(0, GUI_DISP_LINE1_POS, DISPLAY_WIDTH, GUI_DISP_LINE1_POS, WHITE);
 
-    // Available tone on xylophone
-    oled_gotoxy(3, 2);
-    oled_puts("1 ");
-    oled_puts("2 ");
-    oled_puts("3 ");
-    oled_puts("4 ");
-    oled_puts("5 ");
-    oled_puts("6 ");
-    oled_puts("7 ");
-    oled_puts("8 ");
+    // Available tone resp. buttons on xylophone
+    gui_clr_buttons();
     
-    oled_drawLine(0, 3 + 2*11, DISPLAY_WIDTH, 3 + 2*11, WHITE);
+    oled_drawLine(0, GUI_DISP_LINE2_POS, DISPLAY_WIDTH, GUI_DISP_LINE2_POS, WHITE);
+
+
 
     // Copy buffer to display RAM
+    oled_display();
+}
+
+void gui_clr_buttons(void)
+{
+    oled_gotoxy(3, 2);
+    oled_puts("1 2 3 4 5 6 7 8");
+}
+
+void gui_set_button(uint8_t button_num)
+{
+    oled_gotoxy(3 + button_num * 2, 2);
+    oled_puts(_button_Bstrs[button_num]);
+    oled_putc(" ");
     oled_display();
 }
