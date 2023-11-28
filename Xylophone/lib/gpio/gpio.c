@@ -14,6 +14,7 @@
 /* Includes ----------------------------------------------------------*/
 #include <gpio.h>
 #include "pin_definition.h"
+#include "uart.h"
 
 
 /* Function definitions ----------------------------------------------*/
@@ -114,24 +115,21 @@ void GPIO_setup_xylophone()
 {
     uint8_t pins[12] = {C1, D, E, F, G, A, H, C2, left_btn, right_btn, enter_btn, switch_btn};
     volatile uint8_t *registers[12] = {&DDRB, &DDRB, &DDRD, &DDRD, &DDRD, &DDRD, &DDRD, &DDRD, &DDRC, &DDRC, &DDRC, &DDRC};
-    for(int i; i<12; i++)
+    for(int i=0; i<12; i++)
     {
         GPIO_mode_input_pullup(registers[i], pins[i]);
     }
     
 }
 
-uint8_t *GPIO_read_pins()
+void GPIO_read_pins(uint8_t *arr)
 {
     uint8_t pins[12] = {C1, D, E, F, G, A, H, C2, left_btn, right_btn, enter_btn, switch_btn};
     volatile uint8_t *registers[12] = {&PINB, &PINB, &PIND, &PIND, &PIND, &PIND, &PIND, &PIND, &PINC, &PINC, &PINC, &PINC};
-    uint8_t out[12];
 
-    for(int i; i<12; i++)
+    for(int i=0; i<12; i++)
     {
-        out[i] = GPIO_read(registers[i], pins[i]);
+        *(arr+i) = GPIO_read(registers[i], pins[i]);
     }
-
-    uint8_t *pOut = &out;
-    return pOut;
+    
 }

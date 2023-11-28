@@ -27,6 +27,8 @@
 #include <avr/io.h>         // AVR device-specific IO definitions
 #include <avr/interrupt.h>  // Interrupts standard C library for AVR-GCC
 #include <stdlib.h>         // C library. Needed for number conversions
+#include <stdio.h>
+#include <string.h>
 // Project specific library headers
 #include "timer.h"          // Timer library for AVR-GCC
 #include "gui.h"            // GUI library for oled display
@@ -35,15 +37,22 @@
 #include "pin_definition.h" // Pin definitions
 #include "uart.h"
 
+
+uint8_t prevButtonState[12] = {0,0,0,0,0,0,0,0,0,0,0,0};
+uint8_t currButtonState[12] = {0,0,0,0,0,0,0,0,0,0,0,0};
+uint8_t *pPrevButtonState;
+uint8_t *pCurrButtonState;
+
 /* Function definitions ----------------------------------------------*/
 int main(void)
 {
     // Init GUI on oled display
     gui_init();
     GPIO_setup_xylophone(); // Pin direction setup
-    initSPI();
-
+    SPI_init();
+    GPIO_mode_input_pullup(&DDRD, 2);
     uart_init(UART_BAUD_SELECT(9600, F_CPU));
+
 
     TIM1_OVF_33MS;
     TIM1_OVF_ENABLE;
@@ -77,12 +86,22 @@ ISR(TIMER1_OVF_vect)
     // itoa(data, &str, 10);
     // uart_puts(&str);
 
-    static uint8_t prevButtonState[8] = {0,0,0,0,0,0,0,0};
-    static uint8_t currButtonState[8] = {0,0,0,0,0,0,0,0};
+    //uart_puts(".\r\n");   
+    GPIO_read_pins(&currButtonState);
+
+    uart_putc(currButtonState[0]+48);
+    // if(memcmp(currButtonState, prevButtonState, sizeof(prevButtonState)) != 0)
+    // {
+    //     uart_puts("butdiff\r\n");
+    // }
 
 
 
-    memcpy(currButtonState, prevButtonState, sizeof(prevButtonState));
+    // memcpy(currButtonState, prevButtonState, sizeof(prevButtonState));
+
+
+
+    
 
 
 }
