@@ -123,7 +123,7 @@ void GPIO_setup_xylophone()
 uint8_t GPIO_read_pins()
 {
     uint8_t pins[12] = {C1, D, E, F, G, A, H, C2, left_btn, right_btn, enter_btn, switch_btn};
-    volatile uint8_t *registers[12] = {&DDRB, &DDRB, &DDRD, &DDRD, &DDRD, &DDRD, &DDRD, &DDRD, &DDRC, &DDRC, &DDRC, &DDRC};
+    volatile uint8_t *registers[12] = {&PINB, &PINB, &PIND, &PIND, &PIND, &PIND, &PIND, &PIND, &PINC, &PINC, &PINC, &PINC};
     uint8_t out[12];
 
     for(int i; i<12; i++)
