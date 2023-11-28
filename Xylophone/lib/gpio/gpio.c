@@ -130,6 +130,8 @@ void GPIO_read_pins(uint8_t *arr)
     for(int i=0; i<12; i++)
     {
         *(arr+i) = GPIO_read(registers[i], pins[i]);
+        //uart_putc(GPIO_read(registers[i], pins[i])+48);
     }
+    //uart_puts("\r\n");
     
 }
