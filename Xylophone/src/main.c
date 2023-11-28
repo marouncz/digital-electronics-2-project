@@ -41,11 +41,11 @@ int main(void)
     // Init GUI on oled display
     gui_init();
     GPIO_setup_xylophone(); // Pin direction setup
-    SPI_init();
+    initSPI();
 
     uart_init(UART_BAUD_SELECT(9600, F_CPU));
 
-    TIM1_OVF_1SEC;
+    TIM1_OVF_33MS;
     TIM1_OVF_ENABLE;
     sei();
 
@@ -62,16 +62,27 @@ int main(void)
 /* Interrupt service routines ----------------------------------------*/
 ISR(TIMER1_OVF_vect)
 {
-    static uint8_t tone = 0;
+    // static uint8_t tone = 0;
 
-    static uint8_t data = 0;
-    data = 1<<tone;
+    // static uint8_t data = 0;
+    // data = 1<<tone;
     
-    SPI_shift(&data);   
+    // GPIO_write_low(&PORTB, 2);
+    // transmitSPI(&data);   
+    // GPIO_write_high(&PORTB, 2); 
 
-    tone++;
-    if(tone > 7) tone = 0;
-    uint8_t str[4];
-    itoa(data, &str, 10);
-    uart_puts(&str);
+    // tone++;
+    // if(tone > 7) tone = 0;
+    // uint8_t str[4];
+    // itoa(data, &str, 10);
+    // uart_puts(&str);
+
+    static uint8_t prevButtonState[8] = {0,0,0,0,0,0,0,0};
+    static uint8_t currButtonState[8] = {0,0,0,0,0,0,0,0};
+
+
+
+    memcpy(currButtonState, prevButtonState, sizeof(prevButtonState));
+
+
 }
