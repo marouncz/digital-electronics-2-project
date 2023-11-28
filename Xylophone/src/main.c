@@ -92,4 +92,6 @@ ISR(TIMER1_OVF_vect) {
       dingTime[i]--;
     }
   }
+
+  uart_putc(dingTime[1]+48);
 }
