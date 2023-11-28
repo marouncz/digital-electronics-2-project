@@ -20,7 +20,7 @@
  * @brief Definition of keyboard buttons according to note
  */
 #define C1  PB1
-#define D   PB4
+#define D   PB0
 #define E   PD7
 #define F   PD6
 #define G   PD5
@@ -31,9 +31,9 @@
 /**
  * @brief Definition of interface buttons 
  */
-#define left_btn    PC5
-#define right_btn   PC4
-#define enter_btn   PC3
-#define switch_btn  PC2
+#define left_btn    PC3
+#define right_btn   PC2
+#define enter_btn   PC1
+#define switch_btn  PC0
 
 #endif

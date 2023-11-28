@@ -89,15 +89,15 @@ ISR(TIMER1_OVF_vect)
     //uart_puts(".\r\n");   
     GPIO_read_pins(&currButtonState);
 
-    uart_putc(currButtonState[0]+48);
-    // if(memcmp(currButtonState, prevButtonState, sizeof(prevButtonState)) != 0)
-    // {
-    //     uart_puts("butdiff\r\n");
-    // }
+    uart_putc(prevButtonState[1]+48);
+    if(memcmp(currButtonState, prevButtonState, sizeof(prevButtonState)) != 0)
+    {
+        uart_puts("butdiff\r\n");
+    }
 
 
 
-    // memcpy(currButtonState, prevButtonState, sizeof(prevButtonState));
+    memcpy(currButtonState, prevButtonState, 8);
 
 
 
