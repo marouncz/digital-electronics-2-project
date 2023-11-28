@@ -88,6 +88,9 @@ ISR(TIMER1_OVF_vect) {
       dingTime[i] = DING_DUR;
     }
     prevButtonState[i] = currButtonState[i];
+  }
+
+  for (uint8_t i = 0; i < sizeof(dingTime); i++) {
     if (dingTime[i] > 0) {
       dingTime[i]--;
     }
