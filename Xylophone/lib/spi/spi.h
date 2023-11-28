@@ -3,8 +3,10 @@
 
 #include <avr/io.h>
 
-void initSPI(void);
+void SPI_init(void);
 
-void transmitSPI(volatile uint8_t *data);
+void SPI_transmit(volatile uint8_t *data);
+
+void SPI_shift(volatile uint8_t *data);
 
 #endif

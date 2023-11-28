@@ -9,7 +9,8 @@ The student project operated within the Bachelor's program of [Digital Electroni
 
 ## Theoretical description and explanation
 
-Enter a description of the problem and how to solve it.
+[Block diagram](https://app.diagrams.net/#G1r2vdGk2f0OClIlirRXJdd-qQVvmi0gxV)
+
 
 ## Hardware description of demo application
 
