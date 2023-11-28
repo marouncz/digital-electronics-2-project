@@ -41,7 +41,7 @@ int main(void)
     // Init GUI on oled display
     gui_init();
     GPIO_setup_xylophone(); // Pin direction setup
-    initSPI();
+    SPI_init();
 
     uart_init(UART_BAUD_SELECT(9600, F_CPU));
 
@@ -67,9 +67,7 @@ ISR(TIMER1_OVF_vect)
     static uint8_t data = 0;
     data = 1<<tone;
     
-    GPIO_write_low(&PORTB, 2);
-    transmitSPI(&data);   
-    GPIO_write_high(&PORTB, 2); 
+    SPI_shift(&data);   
 
     tone++;
     if(tone > 7) tone = 0;
