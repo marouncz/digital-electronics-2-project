@@ -12,7 +12,7 @@
 
 /**
  * @file 
- * @defgroup gui GPIO Library <gui.h>
+ * @defgroup vanek_gui GUI Library <gui.h>
  * @code #include <gui.h> @endcode
  *
  * @brief Graphical user interface library for oled display.
