@@ -91,12 +91,12 @@ uint8_t GPIO_read(volatile uint8_t *reg, uint8_t pin);
 void GPIO_mode_input_nopull(volatile uint8_t *reg, uint8_t pin);
 
 
-/* 
+/** 
 * @brief  Toggle one pin.
 * @param  reg Address of Port Register, such as &PORTB
 * @param  pin Pin designation in the interval 0 to 7
 * @return none 
-*/
+**/
 void GPIO_write_toggle(volatile uint8_t *reg, uint8_t pin);
 
 /**
@@ -106,8 +106,8 @@ void GPIO_write_toggle(volatile uint8_t *reg, uint8_t pin);
 void GPIO_setup_xylophone();
 
 /**
- * @brief Reads all pins and saves the outputs to an array
- * @return Pins array
+ * @brief Reads all pins and saves them into a pointer
+ * @return none
  */
 void GPIO_read_pins(uint8_t *arr);
 
