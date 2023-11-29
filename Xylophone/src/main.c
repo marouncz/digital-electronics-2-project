@@ -18,46 +18,63 @@
 
 /* Defines -----------------------------------------------------------*/
 #ifndef F_CPU
-#define F_CPU 16000000 // CPU frequency in Hz required for UART_BAUD_SELECT
+#define F_CPU 16000000  // CPU frequency in Hz required for UART_BAUD_SELECT
 #endif
 
 /* Includes ----------------------------------------------------------*/
 // System library headers
-#include <avr/interrupt.h> // Interrupts standard C library for AVR-GCC
-#include <avr/io.h>        // AVR device-specific IO definitions
+#include <avr/interrupt.h>  // Interrupts standard C library for AVR-GCC
+#include <avr/io.h>         // AVR device-specific IO definitions
 #include <stdio.h>
-#include <stdlib.h> // C library. Needed for number conversions
+#include <stdlib.h>  // C library. Needed for number conversions
 #include <string.h>
 // Project specific library headers
-#include "gpio.h"           // Custom library for GPIO pin setup
-#include "gui.h"            // GUI library for oled display
-#include "pin_definition.h" // Pin definitions
+#include "gpio.h"            // Custom library for GPIO pin setup
+#include "gui.h"             // GUI library for oled display
+#include "pin_definition.h"  // Pin definitions
 #include "spi.h"
-#include "timer.h" // Timer library for AVR-GCC
+#include "timer.h"  // Timer library for AVR-GCC
 #include "uart.h"
 
 #define DING_DUR 10
+#define MEM_LEN  40
 
 uint8_t prevButtonState[12] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 uint8_t currButtonState[12] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+volatile uint16_t timeStamp = 0;
+volatile uint8_t recFlag = 0;
+volatile uint16_t memory_timeStamp[MEM_LEN] = {0};
+volatile uint8_t memory_note[MEM_LEN] = {0};
+volatile uint8_t memoryCounter = 0;
+volatile uint8_t playbackFlag = 0;
+volatile uint8_t mem_debug = 0;
 
 /* Function definitions ----------------------------------------------*/
-int main(void)
-{
+int main(void) {
   // Init GUI on oled display
   gui_init();
-  GPIO_setup_xylophone(); // Pin direction setup
+  GPIO_setup_xylophone();  // Pin direction setup
   SPI_init();
   GPIO_mode_input_pullup(&DDRD, 2);
-  uart_init(UART_BAUD_SELECT(9600, F_CPU));
+  uart_init(UART_BAUD_SELECT(115200, F_CPU));
 
   TIM1_OVF_4MS;
   TIM1_OVF_ENABLE;
   sei();
 
   // Main loop
-  for (;;)
-  {
+  while (1) {
+    if (mem_debug) {
+      uart_puts("Memory content\n");
+      for (uint8_t i = 0; i < MEM_LEN; i++) {
+        uart_putc(memory_note[i] + 48);
+        uart_puts("   ");
+        char str[8];
+        uart_puts(itoa(memory_timeStamp[i], str, 10));
+        uart_puts("\n");
+      }
+      mem_debug = 0;
+    }
   }
 
   // Will never reach this
@@ -65,31 +82,47 @@ int main(void)
 }
 
 /* Interrupt service routines ----------------------------------------*/
-ISR(TIMER1_OVF_vect)
-{
+ISR(TIMER1_OVF_vect) {
   static uint8_t dingTime[8] = {0, 0, 0, 0, 0, 0, 0, 0};
   static uint8_t regData = 0;
 
   GPIO_read_pins(&currButtonState);
 
-  for (uint8_t i = 0; i < sizeof(dingTime); i++)
-  {
-    if (currButtonState[i] == 0 && prevButtonState[i] == 1)
-    {
+  for (uint8_t i = 0; i < sizeof(dingTime); i++) {
+    if (currButtonState[i] == 0 && prevButtonState[i] == 1) {
       dingTime[i] = DING_DUR;
+      if (recFlag) {
+        memory_note[memoryCounter] = i;
+        memory_timeStamp[memoryCounter] = timeStamp;
+        memoryCounter++;
+        uart_putc(memoryCounter + 48);
+      }
     }
-    if (dingTime[i] > 0)
-    {
+    if (dingTime[i] > 0) {
       regData |= (1 << i);
       dingTime[i]--;
     }
   }
-  for (uint8_t i = 0; i < sizeof(currButtonState); i++)
-  {
-    prevButtonState[i] = currButtonState[i];
+
+  if (currButtonState[8] == 0 && prevButtonState[8] == 1) {  // Record
+    timeStamp = 0;
+    recFlag = 1;
+    uart_puts("Recording started\n");
+  }
+  if (currButtonState[9] == 0 && prevButtonState[9] == 1) {  // Stop
+    uart_puts("Recording stoped\n");
+    recFlag = 0;
+    mem_debug = 1;
+  }
+  if (currButtonState[11] == 0 && prevButtonState[11] == 1) {  // Play
+    playbackFlag = 1;
   }
 
-
+  for (uint8_t i = 0; i < sizeof(currButtonState); i++) {
+    prevButtonState[i] = currButtonState[i];
+  }
   SPI_shift(regData);
+
   regData = 0;
+  timeStamp++;
 }
