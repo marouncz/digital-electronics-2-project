@@ -1,6 +1,6 @@
 /**
  * @file 
- * @defgroup spi peripheral library <spi.h>
+ * @defgroup coufal_spi SPI Library <spi.h>
  * @code #include <spi.h> @endcode
  *
  * @brief Library for spi init and data transmit for shift registers
