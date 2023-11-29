@@ -36,7 +36,7 @@
 #include "timer.h" // Timer library for AVR-GCC
 #include "uart.h"
 
-#define DING_DUR 10
+#define DING_DUR 50
 
 uint8_t prevButtonState[12] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 uint8_t currButtonState[12] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -88,7 +88,6 @@ ISR(TIMER1_OVF_vect)
   {
     prevButtonState[i] = currButtonState[i];
   }
-
 
   SPI_shift(regData);
   regData = 0;
