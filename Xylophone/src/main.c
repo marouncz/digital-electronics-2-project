@@ -65,6 +65,10 @@ int main(void)
 }
 
 /* Interrupt service routines ----------------------------------------*/
+/**
+ * @brief Construct a new ISR object
+ * Overflow interupt rutine for button operating and recording of pressed notes.
+ */
 ISR(TIMER1_OVF_vect)
 {
   static uint8_t dingTime[8] = {0, 0, 0, 0, 0, 0, 0, 0};

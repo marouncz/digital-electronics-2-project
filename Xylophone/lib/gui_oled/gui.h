@@ -12,7 +12,7 @@
 
 /**
  * @file 
- * @defgroup gui GPIO Library <gui.h>
+ * @defgroup vanek_gui GUI Library <gui.h>
  * @code #include <gui.h> @endcode
  *
  * @brief Graphical user interface library for oled display.
@@ -33,9 +33,11 @@
 #include "oled.h"           // Michael Köhler's OLED library
 
 /* Defines -----------------------------------------------------------*/
-#define GUI_DISP_STATES_POS 0
-#define GUI_DISP_LINE1_POS 11
-#define GUI_DISP_LINE2_POS 25
+#define GUI_DISP_STATES_ROW 0 // position of PLAY, STOP and RECORD buttons
+#define GUI_DISP_RECORDS_ROW 2 // position of available records of xylophone
+#define GUI_DISP_LINE1_POS 24 // position of line
+#define GUI_DISP_LINE2_POS 25 // position of line
+#define GUI_DISP_SHEET_ROW 5 // start position of musical sheet
 
 /* Function prototypes -----------------------------------------------*/
 /**
@@ -47,15 +49,29 @@
 void gui_init(void);
 
 /**
- * @brief Resets line for displaying presed tone buttons
+ * @brief Clears row for displaying available record sections
  * @return none
  */
-void gui_clr_buttons(void);
+void gui_records_clr(void);
 
 /**
- * @brief Display pressed button on display
+ * @brief Clears all lines of musical sheet
+ * @return none
+ */
+void gui_sheet_clr(void);
+
+/**
+ * @brief Display selected record on display
  * 
  * @param button_num button number = <0, 7>
  * @return none
  */
-void gui_set_button(uint8_t button_num);
+void gui_records_set(uint8_t button_num);
+
+/**
+ * @brief Selects next record 
+ * 
+ * @param button_num button number = <0, 7>
+ * @return none
+ */
+void gui_records_shift(uint8_t button_num);
