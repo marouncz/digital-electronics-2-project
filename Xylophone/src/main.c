@@ -126,15 +126,20 @@ ISR(TIMER1_OVF_vect)
       dingTime[memory_note[memoryCounter]] = DING_DUR; 
       memoryCounter++;
     }
+    if(memory_timeStamp[memoryCounter] == 0)
+    {
+      playbackFlag = 0;
+    }
   }
 
   SPI_shift(regData);
   regData = 0;
 
-  if (currButtonState[8] == 0 && prevButtonState[8] == 1)
+  if (currButtonState[10] == 0 && prevButtonState[10] == 1)
   { // Record
     timeStamp = 0;
     recFlag = 1;
+    memoryCounter = 0;
     uart_puts("Recording started\n");
   }
   if (currButtonState[9] == 0 && prevButtonState[9] == 1)
@@ -142,8 +147,9 @@ ISR(TIMER1_OVF_vect)
     uart_puts("Recording stoped\n");
     recFlag = 0;
     mem_debug = 1;
+    memory_timeStamp[memoryCounter] = 0;
   }
-  if (currButtonState[11] == 0 && prevButtonState[11] == 1)
+  if (currButtonState[8] == 0 && prevButtonState[8] == 1)
   { // Play
     uart_puts("Playback started\n");
     playbackFlag = 1;
