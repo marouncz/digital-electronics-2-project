@@ -34,10 +34,10 @@
 
 /* Defines -----------------------------------------------------------*/
 #define GUI_DISP_STATES_ROW 0 // position of PLAY, STOP and RECORD buttons
-#define GUI_DISP_RECORDS_ROW 2 // position of available records of xylophone
-#define GUI_DISP_LINE1_POS 24 // position of line
-#define GUI_DISP_LINE2_POS 25 // position of line
-#define GUI_DISP_SHEET_POS 5 // start position of musical sheet
+#define GUI_DISP_RECORDS_ROW 1 // position of available records of xylophone
+#define GUI_DISP_LINE1_POS 2*8 // position of line
+#define GUI_DISP_LINE2_POS 2*8 + 1 // position of line
+#define GUI_DISP_SHEET_POS 3*8 // start position of musical sheet
 
 /* Function prototypes -----------------------------------------------*/
 /**
@@ -63,15 +63,13 @@ void gui_sheet_clr(void);
 /**
  * @brief Display selected record on display
  * 
- * @param button_num button number = <0, 7>
+ * @param button_num button number = <0, 3>
  * @return none
  */
-void gui_records_set(uint8_t button_num);
+void gui_records_set(uint8_t record_num);
 
 /**
  * @brief Selects next record 
- * 
- * @param button_num button number = <0, 7>
- * @return none
+ * @return selected record number = <0, 3>
  */
-void gui_records_shift(uint8_t button_num);
+uint8_t gui_records_shift();

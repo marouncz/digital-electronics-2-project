@@ -57,16 +57,19 @@ void gui_records_clr(void)
 
 void gui_sheet_clr(void)
 {
-    // First line 1/5
-    oled_drawLine(0, GUI_DISP_SHEET_POS, DISPLAY_WIDTH, GUI_DISP_SHEET_POS, WHITE);
-    // Second line 2/5
-    oled_drawLine(0, GUI_DISP_SHEET_POS, DISPLAY_WIDTH, GUI_DISP_SHEET_POS, WHITE);
-    // Third line 3/5
-    oled_drawLine(0, GUI_DISP_SHEET_POS, DISPLAY_WIDTH, GUI_DISP_SHEET_POS, WHITE);
-    // Fourth line 4/5
-    oled_drawLine(0, GUI_DISP_SHEET_POS, DISPLAY_WIDTH, GUI_DISP_SHEET_POS, WHITE);
-    // Fifth line 5/5
-    oled_drawLine(0, GUI_DISP_SHEET_POS, DISPLAY_WIDTH, GUI_DISP_SHEET_POS, WHITE);
+    // Cursor of y position on display
+    uint8_t cursor_y = GUI_DISP_SHEET_POS + 5;
+    // First line 1/4
+    oled_drawLine(0, cursor_y, DISPLAY_WIDTH, cursor_y, WHITE);
+    cursor_y += 8;
+    // Second line 2/4
+    oled_drawLine(0, cursor_y, DISPLAY_WIDTH, cursor_y, WHITE);
+    cursor_y += 8;
+    // Third line 3/4
+    oled_drawLine(0, cursor_y, DISPLAY_WIDTH, cursor_y, WHITE);
+    cursor_y += 8;
+    // Fourth line 4/4
+    oled_drawLine(0, cursor_y, DISPLAY_WIDTH, cursor_y, WHITE);
 }
 
 void gui_records_set(uint8_t button_num)
