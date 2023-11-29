@@ -46,18 +46,22 @@ $(function() {
   <div class="headertitle"><div class="title">spi.h</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef SPI_H</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor"># define SPI_H</span></div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;avr/io.h&gt;</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keywordtype">void</span> SPI_init(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keywordtype">void</span> SPI_transmit(<span class="keyword">volatile</span> uint8_t *data);</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="keywordtype">void</span> SPI_shift(<span class="keyword">volatile</span> uint8_t *data);</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">#endif</span></div>
+<a href="spi_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#ifndef SPI_H</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor"># define SPI_H</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#include &lt;avr/io.h&gt;</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__coufal__spi.html#gafd9b09f58917f0e2d14c61b956eba214">SPI_init</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__coufal__spi.html#ga87907f486e86ec58bd633172d9574583">SPI_transmit</a>(<span class="keyword">volatile</span> uint8_t *data);</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__coufal__spi.html#ga77aa67160bf451b51fbea3a5662cb83e">SPI_shift</a>(<span class="keyword">volatile</span> uint8_t *data);</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="agroup__coufal__spi_html_ga77aa67160bf451b51fbea3a5662cb83e"><div class="ttname"><a href="group__coufal__spi.html#ga77aa67160bf451b51fbea3a5662cb83e">SPI_shift</a></div><div class="ttdeci">void SPI_shift(volatile uint8_t *data)</div><div class="ttdoc">Transmit data over SPI in blocking mode and handles latch pin.</div><div class="ttdef"><b>Definition:</b> spi.c:17</div></div>
+<div class="ttc" id="agroup__coufal__spi_html_ga87907f486e86ec58bd633172d9574583"><div class="ttname"><a href="group__coufal__spi.html#ga87907f486e86ec58bd633172d9574583">SPI_transmit</a></div><div class="ttdeci">void SPI_transmit(volatile uint8_t *data)</div><div class="ttdoc">Transmit data over SPI in blocking mode.</div><div class="ttdef"><b>Definition:</b> spi.c:11</div></div>
+<div class="ttc" id="agroup__coufal__spi_html_gafd9b09f58917f0e2d14c61b956eba214"><div class="ttname"><a href="group__coufal__spi.html#gafd9b09f58917f0e2d14c61b956eba214">SPI_init</a></div><div class="ttdeci">void SPI_init(void)</div><div class="ttdoc">Iitialize SPI peripheral for use with shift registers.</div><div class="ttdef"><b>Definition:</b> spi.c:3</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
