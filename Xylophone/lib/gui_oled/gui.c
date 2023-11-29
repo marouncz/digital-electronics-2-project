@@ -31,10 +31,8 @@ void gui_init(void)
 
     // Default look init
     // State buttons
-    oled_gotoxy(3, GUI_DISP_STATES_ROW);
-    oled_puts("PLAY");
-    oled_gotoxy(13, GUI_DISP_STATES_ROW);
-    oled_puts("RECORD");
+    oled_gotoxy(2, GUI_DISP_STATES_ROW);
+    oled_puts("PLAY  STOP  RECORD");
     
     oled_drawLine(0, GUI_DISP_LINE1_POS, DISPLAY_WIDTH, GUI_DISP_LINE1_POS, WHITE);
 
@@ -53,29 +51,28 @@ void gui_init(void)
 
 void gui_records_clr(void)
 {
-    oled_gotoxy(3, GUI_DISP_RECORDS_ROW);
-    oled_puts("1 2 3 4 5 6 7 8");
+    oled_gotoxy(7, GUI_DISP_RECORDS_ROW);
+    oled_puts("1 2 3 4");
 }
 
 void gui_sheet_clr(void)
 {
-    oled_gotoxy(0, GUI_DISP_SHEET_ROW);
     // First line 1/5
-    oled_drawLine(0, GUI_DISP_SHEET_ROW, DISPLAY_WIDTH, GUI_DISP_SHEET_ROW, WHITE);
+    oled_drawLine(0, GUI_DISP_SHEET_POS, DISPLAY_WIDTH, GUI_DISP_SHEET_POS, WHITE);
     // Second line 2/5
-    oled_drawLine(0, GUI_DISP_SHEET_ROW, DISPLAY_WIDTH, GUI_DISP_SHEET_ROW, WHITE);
+    oled_drawLine(0, GUI_DISP_SHEET_POS, DISPLAY_WIDTH, GUI_DISP_SHEET_POS, WHITE);
     // Third line 3/5
-    oled_drawLine(0, GUI_DISP_SHEET_ROW, DISPLAY_WIDTH, GUI_DISP_SHEET_ROW, WHITE);
+    oled_drawLine(0, GUI_DISP_SHEET_POS, DISPLAY_WIDTH, GUI_DISP_SHEET_POS, WHITE);
     // Fourth line 4/5
-    oled_drawLine(0, GUI_DISP_SHEET_ROW, DISPLAY_WIDTH, GUI_DISP_SHEET_ROW, WHITE);
+    oled_drawLine(0, GUI_DISP_SHEET_POS, DISPLAY_WIDTH, GUI_DISP_SHEET_POS, WHITE);
     // Fifth line 5/5
-    oled_drawLine(0, GUI_DISP_SHEET_ROW, DISPLAY_WIDTH, GUI_DISP_SHEET_ROW, WHITE);
+    oled_drawLine(0, GUI_DISP_SHEET_POS, DISPLAY_WIDTH, GUI_DISP_SHEET_POS, WHITE);
 }
 
 void gui_records_set(uint8_t button_num)
 {
     oled_gotoxy(3 + button_num * 2, 2);
     oled_puts(_button_Bstrs[button_num]);
-    oled_putc(" ");
+    oled_puts(" ");
     oled_display();
 }

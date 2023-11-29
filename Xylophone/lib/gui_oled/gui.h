@@ -37,7 +37,7 @@
 #define GUI_DISP_RECORDS_ROW 2 // position of available records of xylophone
 #define GUI_DISP_LINE1_POS 24 // position of line
 #define GUI_DISP_LINE2_POS 25 // position of line
-#define GUI_DISP_SHEET_ROW 5 // start position of musical sheet
+#define GUI_DISP_SHEET_POS 5 // start position of musical sheet
 
 /* Function prototypes -----------------------------------------------*/
 /**
