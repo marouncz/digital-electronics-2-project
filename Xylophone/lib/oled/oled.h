@@ -58,7 +58,7 @@ extern "C" {
 	/* TODO: define bus */
 #define I2C  // I2C or SPI	
     /* TODO: define displaycontroller */
-#define SH1106  // or SSD1306, check datasheet of your display
+#define SSD1309  // or SSD1306, check datasheet of your display
     /* TODO: define displaymode */
 #define GRAPHICMODE  // for text and graphic
     // TEXTMODE // for only text to display,

@@ -33,11 +33,53 @@
 #include "oled.h"           // Michael Köhler's OLED library
 
 /* Defines -----------------------------------------------------------*/
-#define GUI_DISP_STATES_ROW 0 // position of PLAY, STOP and RECORD buttons
-#define GUI_DISP_RECORDS_ROW 1 // position of available records of xylophone
-#define GUI_DISP_LINE1_POS 2*8 // position of line
-#define GUI_DISP_LINE2_POS 2*8 + 1 // position of line
-#define GUI_DISP_SHEET_POS 3*8 // start position of musical sheet
+#if defined(SSD1309)
+    /**
+     * @brief Value added to certain GUI positions when SSD1309 is defined.
+     *        This is necessary because SSD1309 lists rows from 1 instead of 0.
+     */
+    #define GUI_ADD_ONE 1
+#else
+    /**
+     * @brief Value added to certain GUI positions when SSD1309 is not defined.
+     */
+    #define GUI_ADD_ONE 0
+#endif
+
+#define _GUI_FONT_WIDTH 6    /**< Font width in pixels */
+#define _GUI_ROW_HEIGHT 8    /**< Row height in pixels */
+
+#define GUI_DISP_MODES_ROW     (uint8_t)(0 + GUI_ADD_ONE)               /**< Row number where PLAY, STOP, and RECORD buttons will be displayed */
+#define GUI_DISP_RECORDS_ROW    (uint8_t)(1 + GUI_ADD_ONE)              /**< Row number where available records of xylophone will be displayed */
+#define GUI_DISP_LINE1_POS      (uint8_t)((2 + GUI_ADD_ONE) * _GUI_ROW_HEIGHT + 1)    /**< Position [px] where first line will be displayed */
+#define GUI_DISP_LINE2_POS      (uint8_t)((2 + GUI_ADD_ONE) * _GUI_ROW_HEIGHT + 2)    /**< Position [px] where second line will be displayed */                       
+#define GUI_DISP_SHEET_POS      (uint8_t)((3 + GUI_ADD_ONE) * _GUI_ROW_HEIGHT)        /**< Start position [px] axis where the musical sheet will be displayed */
+
+// Change to shift records display positon 
+#define GUI_DISP_RECORDS_COL (uint8_t)7       /**< Start column number where available records of xylophone will be displayed */
+
+/** Types ------------------------------------------------------------*/
+
+/**
+ * @brief Either MEMORIZE or DISPLAY
+ *        Used as parameter of function for immediate changes option
+ */
+enum GUIDisplayUpdate
+{
+    DISPLAY = 1,
+    MEMORIZE = 0
+};
+
+/**
+ * @brief Available buttons on GUI
+ *        Used as parameter of function gui_record_toggle()
+ */
+enum GUIButtons
+{
+    PLAY,
+    STOP,
+    RECORD
+};
 
 /* Function prototypes -----------------------------------------------*/
 /**
@@ -49,27 +91,44 @@
 void gui_init(void);
 
 /**
- * @brief Clears row for displaying available record sections
+ * @brief Clears row for displaying selected buttons
  * @return none
+ * @param change either MEMORIZE or DISPLAY display changes immediately
  */
-void gui_records_clr(void);
-
-/**
- * @brief Clears all lines of musical sheet
- * @return none
- */
-void gui_sheet_clr(void);
+void gui_button_clear(enum GUIDisplayUpdate change);
 
 /**
  * @brief Display selected record on display
  * 
- * @param button_num button number = <0, 3>
+ * @param button either PLAY SELECT RECORD, refer to GUIButtons enum
  * @return none
  */
-void gui_records_set(uint8_t record_num);
+void gui_botton_toggle(enum GUIButtons button);
+
+/**
+ * @brief Clears row for displaying available record sections
+ * @return none
+ * @param update either MEMORIZE or DISPLAY display changes immediately
+ */
+void gui_record_clear(enum GUIDisplayUpdate change);
+
+/**
+ * @brief Display selected record on display
+ * 
+ * @param record_num record number = <0, 3>
+ * @return none
+ */
+void gui_record_set(uint8_t record_num);
 
 /**
  * @brief Selects next record 
  * @return selected record number = <0, 3>
  */
-uint8_t gui_records_shift();
+uint8_t gui_record_shift();
+
+/**
+ * @brief Clears all lines of musical sheet
+ * @return none
+ */
+void gui_sheet_clear();
+

@@ -60,7 +60,8 @@ static struct {
 static uint8_t charMode = NORMALSIZE;
 #if defined GRAPHICMODE
 # include <stdlib.h>
-static uint8_t displayBuffer[DISPLAY_HEIGHT/8][DISPLAY_WIDTH];
+// MODIFIED to nonstatic !!
+uint8_t displayBuffer[DISPLAY_HEIGHT/8][DISPLAY_WIDTH];
 #elif defined TEXTMODE
 #else
 # error "No valid displaymode! Refer oled.h"

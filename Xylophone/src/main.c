@@ -135,16 +135,23 @@ ISR(TIMER1_OVF_vect)
   SPI_shift(regData);
   regData = 0;
 
+  if (currButtonState[11] == 0 && prevButtonState[11] == 1)
+  { // Shift record
+    uart_puts("Select next record\n");
+    gui_record_shift();
+  }
   if (currButtonState[10] == 0 && prevButtonState[10] == 1)
   { // Record
     timeStamp = 0;
     recFlag = 1;
     memoryCounter = 0;
     uart_puts("Recording started\n");
+    gui_botton_toggle(RECORD);
   }
   if (currButtonState[9] == 0 && prevButtonState[9] == 1)
   { // Stop
     uart_puts("Recording stoped\n");
+    gui_botton_toggle(RECORD);
     recFlag = 0;
     mem_debug = 1;
     memory_timeStamp[memoryCounter] = 0;
@@ -152,10 +159,12 @@ ISR(TIMER1_OVF_vect)
   if (currButtonState[8] == 0 && prevButtonState[8] == 1)
   { // Play
     uart_puts("Playback started\n");
+    gui_botton_toggle(PLAY);
     playbackFlag = 1;
     timeStamp = 0;
     memoryCounter = 0;
   }
+  
 
   for (uint8_t i = 0; i < sizeof(currButtonState); i++)
   {
