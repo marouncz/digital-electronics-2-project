@@ -17,10 +17,20 @@
 
 /* Local variables ---------------------------------------------------*/
 static uint8_t record_selected = 0;
-const static char* records_str_p[] = {"1 ", "2 ", "3 ", "4 "};
+char* const records_str_p[] PROGMEM = {"1 ", "2 ", "3 ", "4 "};
 
 static uint8_t button_selected[] = {0, 1, 0};
-const static char* modes_str_p[] = {"PLAY", "STOP", "RECORD"};
+char* const modes_str_p[] = {"PLAY", "STOP", "RECORD"};
+
+struct GUISheetRow_t
+{
+    uint8_t row_register;
+    
+};
+
+const char tones[] = {'C', 'B', 'A', 'G', 'F', 'E', 'D', 'C'};
+static uint8_t sheet_row_regs[5] = {0, 0, 0, 0, 0};
+
 
 /* Local function declarations ---------------------------------------*/
 
@@ -56,10 +66,6 @@ void gui_init(void)
     gui_record_clear(DISPLAY);
     gui_record_set(record_selected);
     
-    // Draw lines for better visuals of gui sections
-    oled_drawLine(0, GUI_DISP_LINE1_POS, DISPLAY_WIDTH, GUI_DISP_LINE1_POS, WHITE);
-    oled_drawLine(0, GUI_DISP_LINE2_POS, DISPLAY_WIDTH, GUI_DISP_LINE2_POS, WHITE);
-
     // Draw music sheet
     gui_sheet_clear();
 }
@@ -77,7 +83,7 @@ void gui_button_clear(enum GUIDisplayUpdate change)
     if(change == DISPLAY) oled_display();
 }
 
-void gui_botton_toggle(enum GUIButtons button)
+void gui_botton_toggle(enum GUIButton button)
 {
     button_selected[button] = !button_selected[button];
     // Crawing potantiali momorized content to display
@@ -160,19 +166,79 @@ static void gui_buffer_invert_section(uint8_t y_pos, uint8_t row_n, uint8_t px_l
 
 void gui_sheet_clear()
 {
+    // Draw lines for better visuals of gui sections
+    oled_drawLine(0, GUI_DISP_SHEET_POS, DISPLAY_WIDTH, GUI_DISP_SHEET_POS, BLACK);
+    oled_drawLine(0, GUI_DISP_SHEET_POS + 1, DISPLAY_WIDTH, GUI_DISP_SHEET_POS + 1, WHITE);
+    oled_drawLine(0, GUI_DISP_SHEET_POS + 2, DISPLAY_WIDTH, GUI_DISP_SHEET_POS + 2, WHITE);
+
     // Cursor of y position on display
-    uint8_t cursor_y = GUI_DISP_SHEET_POS + 5;
-    // First line 1/4
+    uint8_t cursor_y = GUI_DISP_SHEET_POS + 40 - 8;
+    // Finish line
+    oled_drawLine(0, cursor_y, DISPLAY_WIDTH, cursor_y, BLACK);
+    cursor_y++;
+    oled_drawLine(0, cursor_y, DISPLAY_WIDTH, cursor_y, BLACK);
+    cursor_y++;
     oled_drawLine(0, cursor_y, DISPLAY_WIDTH, cursor_y, WHITE);
-    cursor_y += 8;
-    // Second line 2/4
+    cursor_y++;
     oled_drawLine(0, cursor_y, DISPLAY_WIDTH, cursor_y, WHITE);
-    cursor_y += 8;
-    // Third line 3/4
+    cursor_y++;
     oled_drawLine(0, cursor_y, DISPLAY_WIDTH, cursor_y, WHITE);
-    cursor_y += 8;
-    // Fourth line 4/4
+    cursor_y++;
+    oled_drawLine(0, cursor_y, DISPLAY_WIDTH, cursor_y, WHITE);
+    cursor_y++;
+    oled_drawLine(0, cursor_y, DISPLAY_WIDTH, cursor_y, WHITE);
+    cursor_y++;
     oled_drawLine(0, cursor_y, DISPLAY_WIDTH, cursor_y, WHITE);
     // Copy buffer to display RAM
     oled_display();
+}
+
+void gui_sheet_set(uint8_t tone_register)
+{
+    gui_sheet_update();
+    sheet_row_regs[sizeof(sheet_row_regs) - 1] = tone_register;
+    for(uint8_t i = 0; i < 8; i++)
+    {
+        if((tone_register >> i) & 1)
+        {
+            oled_gotoxy(3 + i * 2, GUI_DISP_SHEET_POS / _GUI_ROW_HEIGHT + (sizeof(sheet_row_regs) - 1));
+            oled_putc(tones[i]);
+        }
+    }
+    // Draw lines for better visuals, hiding first charactes
+    oled_drawLine(0, GUI_DISP_SHEET_POS, DISPLAY_WIDTH, GUI_DISP_SHEET_POS, BLACK);
+    oled_drawLine(0, GUI_DISP_SHEET_POS + 1, DISPLAY_WIDTH, GUI_DISP_SHEET_POS + 1, WHITE);
+    oled_drawLine(0, GUI_DISP_SHEET_POS + 2, DISPLAY_WIDTH, GUI_DISP_SHEET_POS + 2, WHITE);
+    oled_display();
+}
+
+void gui_sheet_update()
+{
+    // Shift all items in sheet rows up
+    for(uint8_t j = 1; j < sizeof(sheet_row_regs); j++)
+    {
+        // Starting with first item
+        sheet_row_regs[j - 1] = sheet_row_regs[j];
+
+        // Writing row acording to bites in sheet register
+        for(uint8_t i = 0; i < 8; i++)
+        {
+            // Write
+            if((sheet_row_regs[j - 1] >> i) & 1)
+            {
+                oled_gotoxy(3 + i * 2, GUI_DISP_SHEET_POS / _GUI_ROW_HEIGHT + j - 1);
+                oled_putc(tones[i]);
+            }
+            // Erase
+            else
+            {
+                oled_gotoxy(3 + i * 2, GUI_DISP_SHEET_POS / _GUI_ROW_HEIGHT + j - 1);
+                oled_putc(' ');
+            }
+        }
+    }
+    // Destroying first item
+    gui_sheet_clear();
+    // Destroying last item
+    sheet_row_regs[sizeof(sheet_row_regs) - 1] = 0;
 }

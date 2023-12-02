@@ -132,6 +132,25 @@ ISR(TIMER1_OVF_vect)
     }
   }
 
+  // TODO: find space in code for wrinting to display
+  uint8_t changed = 0;
+  for (uint8_t i = 0; i < sizeof(dingTime); i++)
+  {
+    if (currButtonState[i] == 0 && prevButtonState[i] == 1)
+    {
+      changed = 1;
+    }
+  }
+  if(changed)
+  {
+    gui_sheet_set(regData);
+  }
+  else
+  {
+    gui_sheet_update();
+  }
+  
+
   SPI_shift(regData);
   regData = 0;
 
@@ -164,7 +183,6 @@ ISR(TIMER1_OVF_vect)
     timeStamp = 0;
     memoryCounter = 0;
   }
-  
 
   for (uint8_t i = 0; i < sizeof(currButtonState); i++)
   {

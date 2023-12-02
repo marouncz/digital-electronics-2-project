@@ -50,10 +50,8 @@
 #define _GUI_ROW_HEIGHT 8    /**< Row height in pixels */
 
 #define GUI_DISP_MODES_ROW     (uint8_t)(0 + GUI_ADD_ONE)               /**< Row number where PLAY, STOP, and RECORD buttons will be displayed */
-#define GUI_DISP_RECORDS_ROW    (uint8_t)(1 + GUI_ADD_ONE)              /**< Row number where available records of xylophone will be displayed */
-#define GUI_DISP_LINE1_POS      (uint8_t)((2 + GUI_ADD_ONE) * _GUI_ROW_HEIGHT + 1)    /**< Position [px] where first line will be displayed */
-#define GUI_DISP_LINE2_POS      (uint8_t)((2 + GUI_ADD_ONE) * _GUI_ROW_HEIGHT + 2)    /**< Position [px] where second line will be displayed */                       
-#define GUI_DISP_SHEET_POS      (uint8_t)((3 + GUI_ADD_ONE) * _GUI_ROW_HEIGHT)        /**< Start position [px] axis where the musical sheet will be displayed */
+#define GUI_DISP_RECORDS_ROW    (uint8_t)(1 + GUI_ADD_ONE)              /**< Row number where available records of xylophone will be displayed */                     
+#define GUI_DISP_SHEET_POS      (uint8_t)((2 + GUI_ADD_ONE) * _GUI_ROW_HEIGHT)    /**< Start position [px] axis where the musical sheet will be displayed */
 
 // Change to shift records display positon 
 #define GUI_DISP_RECORDS_COL (uint8_t)7       /**< Start column number where available records of xylophone will be displayed */
@@ -74,7 +72,7 @@ enum GUIDisplayUpdate
  * @brief Available buttons on GUI
  *        Used as parameter of function gui_record_toggle()
  */
-enum GUIButtons
+enum GUIButton
 {
     PLAY,
     STOP,
@@ -103,7 +101,7 @@ void gui_button_clear(enum GUIDisplayUpdate change);
  * @param button either PLAY SELECT RECORD, refer to GUIButtons enum
  * @return none
  */
-void gui_botton_toggle(enum GUIButtons button);
+void gui_botton_toggle(enum GUIButton button);
 
 /**
  * @brief Clears row for displaying available record sections
@@ -124,11 +122,23 @@ void gui_record_set(uint8_t record_num);
  * @brief Selects next record 
  * @return selected record number = <0, 3>
  */
-uint8_t gui_record_shift();
+uint8_t gui_record_shift(void);
 
 /**
  * @brief Clears all lines of musical sheet
  * @return none
  */
-void gui_sheet_clear();
+void gui_sheet_clear(void);
 
+/**
+ * @brief Draw tones to musical sheet
+ * @param tone_register each bit represents tone
+ * @return none
+ */
+void gui_sheet_set(uint8_t tone_register);
+
+/**
+ * @brief Shifts all conten on sheet upwards
+ * @return none
+ */
+void gui_sheet_update();
