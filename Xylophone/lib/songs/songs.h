@@ -4,11 +4,11 @@
 # include <avr/pgmspace.h>
 
 const uint16_t flashSongsTimeStamp1[] PROGMEM = {
-100, 200, 300, 350, 0
+30, 60, 90, 120, 0
 };
 
 const uint8_t flashSongsNote1[] PROGMEM = {
-1, 2, 3, 4, 0
+1, 2, 3, 8, 0
 };
 
 const uint16_t flashSongsTimeStamp2[] PROGMEM = {

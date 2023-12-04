@@ -50,7 +50,7 @@ volatile uint8_t memoryCounter = 0;
 volatile uint8_t playbackFlag = 0;
 volatile uint8_t mem_debug = 0;
 volatile uint8_t trackNumber = 1;
-volatile uint8_t playBackNum;
+volatile uint8_t playbackNum;
 
 /* Function definitions ----------------------------------------------*/
 int main(void)
@@ -62,7 +62,7 @@ int main(void)
   GPIO_mode_input_pullup(&DDRD, 2);
   uart_init(UART_BAUD_SELECT(115200, F_CPU));
 
-  TIM1_OVF_4MS;
+  TIM1_OVF_33MS;
   TIM1_OVF_ENABLE;
   sei();
 
@@ -123,7 +123,7 @@ ISR(TIMER1_OVF_vect)
 
   if(playbackFlag)
   {
-    switch (playBackNum)
+    switch (playbackNum)
     {
     case 0:
       if(memory_timeStamp[memoryCounter] == timeStamp)
@@ -137,8 +137,42 @@ ISR(TIMER1_OVF_vect)
       }
       break;
 
-    case 1:
+    case 1:  
+      uart_putc(timeStamp+48);    
+      if(pgm_read_word(&flashSongsNote1[memoryCounter]) == timeStamp)
+      {
+        uart_puts("1");
+        dingTime[pgm_read_byte(&flashSongsNote1[memoryCounter])] = DING_DUR; 
+        memoryCounter++;
+      }
+      if(pgm_read_word(&flashSongsNote1[memoryCounter]) == 0)
+      {
+        playbackFlag = 0;
+      }
+      break;
 
+    case 2:
+      if(flashSongsTimeStamp2[memoryCounter] == timeStamp)
+      {
+        dingTime[flashSongsNote2[memoryCounter]] = DING_DUR; 
+        memoryCounter++;
+      }
+      if(flashSongsTimeStamp2[memoryCounter] == 0)
+      {
+        playbackFlag = 0;
+      }
+      break;
+
+    case 3:
+      if(flashSongsTimeStamp3[memoryCounter] == timeStamp)
+      {
+        dingTime[flashSongsNote3[memoryCounter]] = DING_DUR; 
+        memoryCounter++;
+      }
+      if(flashSongsTimeStamp3[memoryCounter] == 0)
+      {
+        playbackFlag = 0;
+      }
       break;
     
     default:
@@ -172,7 +206,7 @@ ISR(TIMER1_OVF_vect)
   if (currButtonState[11] == 0 && prevButtonState[11] == 1)
   { // Shift playback
     uart_puts("Select next record\n");
-    playBackNum = gui_record_shift();
+    playbackNum = gui_record_shift();
   }
   if (currButtonState[10] == 0 && prevButtonState[10] == 1)
   { // Record
