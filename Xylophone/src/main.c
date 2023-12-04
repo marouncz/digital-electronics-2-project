@@ -49,6 +49,7 @@ volatile uint8_t memoryCounter = 0;
 volatile uint8_t playbackFlag = 0;
 volatile uint8_t mem_debug = 0;
 volatile uint8_t trackNumber = 1;
+volatile uint8_t playBackNum;
 
 /* Function definitions ----------------------------------------------*/
 int main(void)
@@ -121,19 +122,32 @@ ISR(TIMER1_OVF_vect)
 
   if(playbackFlag)
   {
-    if(memory_timeStamp[memoryCounter] == timeStamp)
+    switch (playBackNum)
     {
-      dingTime[memory_note[memoryCounter]] = DING_DUR; 
-      memoryCounter++;
+    case 0:
+      if(memory_timeStamp[memoryCounter] == timeStamp)
+      {
+        dingTime[memory_note[memoryCounter]] = DING_DUR; 
+        memoryCounter++;
+      }
+      if(memory_timeStamp[memoryCounter] == 0)
+      {
+        playbackFlag = 0;
+      }
+      break;
+
+    case 1:
+
+      break;
+    
+    default:
+      break;
     }
-    if(memory_timeStamp[memoryCounter] == 0)
-    {
-      playbackFlag = 0;
-    }
+
   }
 
   // TODO: find space in code for wrinting to display
-  uint8_t changed = 0;
+  /*uint8_t changed = 0;
   for (uint8_t i = 0; i < sizeof(dingTime); i++)
   {
     if (currButtonState[i] == 0 && prevButtonState[i] == 1)
@@ -148,16 +162,16 @@ ISR(TIMER1_OVF_vect)
   else
   {
     gui_sheet_update();
-  }
+  }*/
   
 
   SPI_shift(regData);
   regData = 0;
 
   if (currButtonState[11] == 0 && prevButtonState[11] == 1)
-  { // Shift record
+  { // Shift playback
     uart_puts("Select next record\n");
-    gui_record_shift();
+    playBackNum = gui_record_shift();
   }
   if (currButtonState[10] == 0 && prevButtonState[10] == 1)
   { // Record
@@ -170,7 +184,6 @@ ISR(TIMER1_OVF_vect)
   if (currButtonState[9] == 0 && prevButtonState[9] == 1)
   { // Stop
     uart_puts("Recording stoped\n");
-    gui_botton_toggle(RECORD);
     recFlag = 0;
     mem_debug = 1;
     memory_timeStamp[memoryCounter] = 0;
