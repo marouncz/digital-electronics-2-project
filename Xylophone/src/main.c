@@ -35,6 +35,7 @@
 #include "spi.h"
 #include "timer.h" // Timer library for AVR-GCC
 #include "uart.h"
+#include "songs.h"
 
 #define DING_DUR 10
 #define MEM_LEN 40
