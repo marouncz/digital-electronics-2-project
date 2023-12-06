@@ -62,9 +62,15 @@ int main(void)
   GPIO_mode_input_pullup(&DDRD, 2);
   uart_init(UART_BAUD_SELECT(115200, F_CPU));
 
-  TIM1_OVF_33MS;
+  TIM1_OVF_4MS;
   TIM1_OVF_ENABLE;
   sei();
+
+  /*uart_putc(pgm_read_word(&flashSongsNote1[4])+48); 
+  char str[4];
+  itoa(pgm_read_byte(&flashSongsTimeStamp1[4]), str, 10);
+  uart_puts("\n");
+  uart_puts(str); */
 
   // Main loop
   while (1)
@@ -137,39 +143,37 @@ ISR(TIMER1_OVF_vect)
       }
       break;
 
-    case 1:  
-      uart_putc(timeStamp+48);    
-      if(pgm_read_word(&flashSongsNote1[memoryCounter]) == timeStamp)
+    case 1:          
+      if(pgm_read_word(&flashSongsTimeStamp1[memoryCounter]) == timeStamp)
       {
-        uart_puts("1");
         dingTime[pgm_read_byte(&flashSongsNote1[memoryCounter])] = DING_DUR; 
         memoryCounter++;
       }
-      if(pgm_read_word(&flashSongsNote1[memoryCounter]) == 0)
+      if(pgm_read_word(&flashSongsTimeStamp1[memoryCounter]) == 0)
       {
         playbackFlag = 0;
       }
       break;
 
     case 2:
-      if(flashSongsTimeStamp2[memoryCounter] == timeStamp)
+      if(pgm_read_word(&flashSongsTimeStamp2[memoryCounter]) == timeStamp)
       {
-        dingTime[flashSongsNote2[memoryCounter]] = DING_DUR; 
+        dingTime[pgm_read_byte(&flashSongsNote2[memoryCounter])] = DING_DUR; 
         memoryCounter++;
       }
-      if(flashSongsTimeStamp2[memoryCounter] == 0)
+      if(pgm_read_word(&flashSongsTimeStamp2[memoryCounter]) == 0)
       {
         playbackFlag = 0;
       }
       break;
 
     case 3:
-      if(flashSongsTimeStamp3[memoryCounter] == timeStamp)
+      if(pgm_read_word(&flashSongsTimeStamp3[memoryCounter]) == timeStamp)
       {
-        dingTime[flashSongsNote3[memoryCounter]] = DING_DUR; 
+        dingTime[pgm_read_byte(&flashSongsNote3[memoryCounter])] = DING_DUR; 
         memoryCounter++;
       }
-      if(flashSongsTimeStamp3[memoryCounter] == 0)
+      if(pgm_read_word(&flashSongsTimeStamp3[memoryCounter]) == 0)
       {
         playbackFlag = 0;
       }
@@ -222,6 +226,7 @@ ISR(TIMER1_OVF_vect)
     recFlag = 0;
     mem_debug = 1;
     memory_timeStamp[memoryCounter] = 0;
+    playbackFlag = 0;
   }
   if (currButtonState[8] == 0 && prevButtonState[8] == 1)
   { // Play
