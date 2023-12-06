@@ -38,7 +38,7 @@
 #include "songs.h"
 
 #define DING_DUR 10
-#define MEM_LEN 40
+#define MEM_LEN 70
 
 uint8_t prevButtonState[12] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 uint8_t currButtonState[12] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -144,6 +144,7 @@ ISR(TIMER1_OVF_vect)
       if(memory_timeStamp[memoryCounter] == 0)
       {
         playbackFlag = 0;
+        gui_botton_toggle(PLAY);
       }
       break;
 
@@ -222,11 +223,14 @@ ISR(TIMER1_OVF_vect)
     recFlag = 1;
     memoryCounter = 0;
     uart_puts("Recording started\n");
+    gui_button_clear(DISPLAY);
     gui_botton_toggle(RECORD);
   }
   if (currButtonState[9] == 0 && prevButtonState[9] == 1)
   { // Stop
     uart_puts("Recording stoped\n");
+    gui_button_clear(DISPLAY);
+    gui_botton_toggle(STOP);
     recFlag = 0;
     mem_debug = 1;
     memory_timeStamp[memoryCounter] = 0;
@@ -235,6 +239,7 @@ ISR(TIMER1_OVF_vect)
   if (currButtonState[8] == 0 && prevButtonState[8] == 1)
   { // Play
     uart_puts("Playback started\n");
+    gui_button_clear(DISPLAY);
     gui_botton_toggle(PLAY);
     playbackFlag = 1;
     timeStamp = 0;
