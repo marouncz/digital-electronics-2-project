@@ -153,18 +153,8 @@ void gui_record_set(uint8_t record_num)
     gui_record_clear(MEMORIZE);
     // Select recerd by inverting pixel at its position
     gui_buffer_invert_section((GUI_DISP_RECORDS_COL + record_num * 2) * _GUI_FONT_WIDTH, GUI_DISP_RECORDS_ROW, _GUI_FONT_WIDTH + 1);
-    // Copy buffer to display RAM
-    oled_display();
     record_selected = record_num;
-}
-
-uint8_t gui_record_shift()
-{
     // Overflow to first item if greater then max
-    if(record_selected >= (sizeof(records_str_p) / sizeof(records_str_p[0])) - 1) record_selected = 0;
-    else record_selected++;
-    // Display next
-    gui_record_set(record_selected);
     if (record_selected == 0){
         //display record button
         oled_gotoxy(14, GUI_DISP_MODES_ROW);
@@ -174,6 +164,16 @@ uint8_t gui_record_shift()
         oled_gotoxy(14, GUI_DISP_MODES_ROW);
         oled_puts("      ");        
     }
+    // Copy buffer to display RAM
+    oled_display();
+}
+
+uint8_t gui_record_shift()
+{
+    if(record_selected >= (sizeof(records_str_p) / sizeof(records_str_p[0])) - 1) record_selected = 0;
+    else record_selected++;
+    // Display next
+    gui_record_set(record_selected);
     return record_selected;
 }
 
