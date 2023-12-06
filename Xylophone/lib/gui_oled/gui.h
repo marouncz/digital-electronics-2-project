@@ -79,6 +79,17 @@ enum GUIButton
     RECORD
 };
 
+/**
+ * @brief Button toggle values
+ *        Used as parameter of function gui_botton_set()
+ */
+enum GUIButtonValue
+{
+    RESET,
+    SET
+};
+
+
 /* Function prototypes -----------------------------------------------*/
 /**
  * @brief Initalize graphical user interface on oled
@@ -96,12 +107,21 @@ void gui_init(void);
 void gui_button_clear(enum GUIDisplayUpdate change);
 
 /**
- * @brief Display selected record on display
+ * @brief Show selected record on display
  * 
- * @param button either PLAY SELECT RECORD, refer to GUIButtons enum
+ * @param button either PLAY, SELECT or RECORD, refer to GUIButtons enum
  * @return none
  */
 void gui_botton_toggle(enum GUIButton button);
+
+/**
+ * @brief Show / clear selected button on display
+ * 
+ * @param button either PLAY, SELECT or RECORD, refer to GUIButtons enum
+ * @param value either SET or RESET, refer to GUIButtonValue enum
+ * @return none
+ */
+void gui_botton_set(enum GUIButton button, enum GUIButtonValue value);
 
 /**
  * @brief Clears row for displaying available record sections
