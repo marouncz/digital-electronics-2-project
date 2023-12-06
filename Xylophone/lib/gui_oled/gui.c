@@ -165,6 +165,15 @@ uint8_t gui_record_shift()
     else record_selected++;
     // Display next
     gui_record_set(record_selected);
+    if (record_selected == 0){
+        //display record button
+        oled_gotoxy(14, GUI_DISP_MODES_ROW);
+        oled_puts("RECORD");
+    } else {
+        //hide record button
+        oled_gotoxy(14, GUI_DISP_MODES_ROW);
+        oled_puts("      ");        
+    }
     return record_selected;
 }
 
