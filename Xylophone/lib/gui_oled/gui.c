@@ -85,7 +85,12 @@ void gui_button_clear(enum GUIDisplayUpdate change)
 
 void gui_botton_toggle(enum GUIButton button)
 {
-    button_selected[button] = !button_selected[button];
+    gui_botton_set(button, !button_selected[button]);
+}
+
+void gui_botton_set(enum GUIButton button, enum GUIButtonValue value)
+{
+    button_selected[button] = value;
     // Crawing potantiali momorized content to display
     oled_display();
     // Clearing modes section, but not diplaying it yet
