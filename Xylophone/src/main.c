@@ -80,12 +80,17 @@ int main(void)
       uart_puts("Memory content\n");
       for (uint8_t i = 0; i < MEM_LEN; i++)
       {
-        uart_putc(memory_note[i] + 48);
-        uart_puts("   ");
         char str[8];
-        uart_puts(itoa(memory_timeStamp[i], str, 10));
-        uart_puts("\n");
+        uart_puts(itoa(memory_timeStamp[i], str, 10));        
+        uart_puts(", ");
       }
+      uart_puts("\n");
+      for (uint8_t i = 0; i < MEM_LEN; i++)
+      {
+        uart_putc(memory_note[i] + 48);
+        uart_puts(", ");
+      }
+      uart_puts("\n");
       mem_debug = 0;
     }
   }
