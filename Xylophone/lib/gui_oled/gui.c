@@ -67,7 +67,9 @@ void gui_init(void)
     gui_record_set(record_selected);
     
     // Draw music sheet
-    gui_sheet_clear();
+    gui_lines();
+
+    oled_display();
 }
 
 void gui_button_clear(enum GUIDisplayUpdate change)
@@ -153,23 +155,14 @@ void gui_record_set(uint8_t record_num)
     gui_record_clear(MEMORIZE);
     // Select recerd by inverting pixel at its position
     gui_buffer_invert_section((GUI_DISP_RECORDS_COL + record_num * 2) * _GUI_FONT_WIDTH, GUI_DISP_RECORDS_ROW, _GUI_FONT_WIDTH + 1);
-    record_selected = record_num;
-    // Overflow to first item if greater then max
-    if (record_selected == 0){
-        //display record button
-        oled_gotoxy(14, GUI_DISP_MODES_ROW);
-        oled_puts("RECORD");
-    } else {
-        //hide record button
-        oled_gotoxy(14, GUI_DISP_MODES_ROW);
-        oled_puts("      ");        
-    }
     // Copy buffer to display RAM
     oled_display();
+    record_selected = record_num;
 }
 
 uint8_t gui_record_shift()
 {
+    // Overflow to first item if greater then max
     if(record_selected >= (sizeof(records_str_p) / sizeof(records_str_p[0])) - 1) record_selected = 0;
     else record_selected++;
     // Display next
@@ -187,33 +180,12 @@ static void gui_buffer_invert_section(uint8_t y_pos, uint8_t row_n, uint8_t px_l
     }
 }
 
-void gui_sheet_clear()
+void gui_lines()
 {
     // Draw lines for better visuals of gui sections
     oled_drawLine(0, GUI_DISP_SHEET_POS, DISPLAY_WIDTH, GUI_DISP_SHEET_POS, BLACK);
     oled_drawLine(0, GUI_DISP_SHEET_POS + 1, DISPLAY_WIDTH, GUI_DISP_SHEET_POS + 1, WHITE);
     oled_drawLine(0, GUI_DISP_SHEET_POS + 2, DISPLAY_WIDTH, GUI_DISP_SHEET_POS + 2, WHITE);
-
-    // Cursor of y position on display
-    uint8_t cursor_y = GUI_DISP_SHEET_POS + 40 - 8;
-    // Finish line
-    oled_drawLine(0, cursor_y, DISPLAY_WIDTH, cursor_y, BLACK);
-    cursor_y++;
-    oled_drawLine(0, cursor_y, DISPLAY_WIDTH, cursor_y, BLACK);
-    cursor_y++;
-    oled_drawLine(0, cursor_y, DISPLAY_WIDTH, cursor_y, WHITE);
-    cursor_y++;
-    oled_drawLine(0, cursor_y, DISPLAY_WIDTH, cursor_y, WHITE);
-    cursor_y++;
-    oled_drawLine(0, cursor_y, DISPLAY_WIDTH, cursor_y, WHITE);
-    cursor_y++;
-    oled_drawLine(0, cursor_y, DISPLAY_WIDTH, cursor_y, WHITE);
-    cursor_y++;
-    oled_drawLine(0, cursor_y, DISPLAY_WIDTH, cursor_y, WHITE);
-    cursor_y++;
-    oled_drawLine(0, cursor_y, DISPLAY_WIDTH, cursor_y, WHITE);
-    // Copy buffer to display RAM
-    oled_display();
 }
 
 void gui_sheet_set(uint8_t tone_register)
@@ -222,16 +194,18 @@ void gui_sheet_set(uint8_t tone_register)
     sheet_row_regs[sizeof(sheet_row_regs) - 1] = tone_register;
     for(uint8_t i = 0; i < 8; i++)
     {
+        oled_gotoxy(3 + i * 2, GUI_DISP_SHEET_POS / _GUI_ROW_HEIGHT + (sizeof(sheet_row_regs) - 1));
         if((tone_register >> i) & 1)
         {
-            oled_gotoxy(3 + i * 2, GUI_DISP_SHEET_POS / _GUI_ROW_HEIGHT + (sizeof(sheet_row_regs) - 1));
             oled_putc(tones[i]);
+        }
+        else
+        {
+            oled_putc(' ');
         }
     }
     // Draw lines for better visuals, hiding first charactes
-    oled_drawLine(0, GUI_DISP_SHEET_POS, DISPLAY_WIDTH, GUI_DISP_SHEET_POS, BLACK);
-    oled_drawLine(0, GUI_DISP_SHEET_POS + 1, DISPLAY_WIDTH, GUI_DISP_SHEET_POS + 1, WHITE);
-    oled_drawLine(0, GUI_DISP_SHEET_POS + 2, DISPLAY_WIDTH, GUI_DISP_SHEET_POS + 2, WHITE);
+    gui_lines();
     oled_display();
 }
 
@@ -246,22 +220,21 @@ void gui_sheet_update()
         // Writing row acording to bites in sheet register
         for(uint8_t i = 0; i < 8; i++)
         {
+            oled_gotoxy(3 + i * 2, GUI_DISP_SHEET_POS / _GUI_ROW_HEIGHT + j - 1);
             // Write
             if((sheet_row_regs[j - 1] >> i) & 1)
             {
-                oled_gotoxy(3 + i * 2, GUI_DISP_SHEET_POS / _GUI_ROW_HEIGHT + j - 1);
                 oled_putc(tones[i]);
             }
             // Erase
             else
             {
-                oled_gotoxy(3 + i * 2, GUI_DISP_SHEET_POS / _GUI_ROW_HEIGHT + j - 1);
                 oled_putc(' ');
             }
         }
     }
     // Destroying first item
-    gui_sheet_clear();
+    gui_lines();
     // Destroying last item
     sheet_row_regs[sizeof(sheet_row_regs) - 1] = 0;
 }
