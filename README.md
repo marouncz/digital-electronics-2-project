@@ -2,23 +2,23 @@
 The student project operated within the Bachelor's program of [Digital Electronics 2](https://github.com/tomas-fryza/digital-electronics-2/tree/master/labs/09-project) at Brno University of Technology.
 ### Team members
 
-* Marek Coufal (SPI shift register, )
-* Martin Ťavoda (GPIO interupt handling, recording)
-* Miloslav Kužela (GPIO setup and read functions, documentation)
+* Marek Coufal (SPI shift register, FLASH memory)
+* Martin Ťavoda (GPIO interupt handling, notes recording)
+* Miloslav Kužela (GPIO setup and read functions, documentation, doxygen)
 * Roman Vaněk (OLED Graphical user interface, doxygen management)
 
-## Theoretical description and explanation
+## Connection diagram
+![Block diagram](img/Theoretical_diagram.svg)
 
-[Block diagram](https://app.diagrams.net/#G1r2vdGk2f0OClIlirRXJdd-qQVvmi0gxV)
 
-
-## Hardware description of demo application
-The xylophone consists of individual xylophone bricks that have a coil with a magnetic rod under them, that rises and hits the notes when a current is passed through it. The switching is handeled by LTV-817-C opto-coupler. The couplers are controled by a shift register that is connected to the arduino. The whole assembly is powered by a switching powersupply that has an output of VDC.
+## Theoretical and hardware description
+The xylophone consists of individual xylophone bricks that have a coil with a magnetic rod under them, that rises and hits the notes when a current is passed through it. The switching is handeled by LTV-817-C opto-coupler. The couplers are controled by a shift register that is connected to the arduino. The whole assembly is powered by a switching powersupply that has an output of 24VDC.
 
 ![Xylophone schematic](img/xylophone_board.svg)
 
 As mentioned above, due to GPIO restriction of used MCU, we used a shift register for the controling of the individual notes. It uses SPI for communiation. Rest of the digital IO pins are used as inputs connected to buttons with enabled pull ups. Final hardware part is an OLED display which is connected with an I2C interface.
 ![Arduino circuit](img/circuit.png)
+
 ## Software description
 Full software doxygen documentation available at [Xylophone DOC](https://marouncz.github.io/digital-electronics-2-project/).
 
@@ -27,27 +27,25 @@ Put flowchats of your algorithm(s) and direct links to source files in `src` or 
 ## Instructions
 ### Powering on
 Make sure that the xylophone and arduino are both plugged in. If everything is correct, pressing any note button should play a sound accompanied by a visual indication on the OLED display.
-```Image of the powered up unit```
+![Connected](img/connected.JPG)
 
 ### Free play
-After powering the unit is ready to play. Press any note button and play whatever song or melody you want.
+After powering on, the unit is ready to play. Press any button and play whatever song or melody you want.
 
 ### Recording
-Pressing the record button will start the recording of played notes. Recording should get highlighted on the display.
-To stop the recording press the STOP button which stops and saves to recording.
-The maximum recording length is *40* notes, after exceeding the limit the recording is stopped and saved automaticaly.
-User recording accupies the last memory slot.
+Pressing the record button, while having the first melody slot selected will start the recording of played notes. ``RECORD`` will get highlighted on the display. To stop the recording press the STOP button, which stops and saves the recording.
+> **Note:** The maximum recording length is 70 notes, exceeding the limit will stop the recording
 
 ### Playback
 The program has 3 memory slots, which the first two are prerecorded melodies and the last one is reveserved for the user. You can cycle between them using the select button. After selecting the wanted memory slot you can play it using the PLAY button.
 
+### [Video demonstration](youtube.com/)
+
 ## References
 
-1. Xylophone board designed by 
-2. 
-
-## TO-DO
-Nakreslit schémátka, video/fotky, dodělat gui interaction
+1. Xylophone original board designed by Čepek Hlaváč
+2. [ATMEGA328P datasheet](https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-7810-Automotive-Microcontrollers-ATmega328P_Datasheet.pdf)
+3. 
 
 ## Contribution guide
 
