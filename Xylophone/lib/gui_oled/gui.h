@@ -120,7 +120,7 @@ void gui_botton_toggle(enum GUIButton button);
  * @param value either SET or RESET, refer to GUIButtonValue enum
  * @return none
  */
-void gui_botton_set(enum GUIButtonValue value_play, enum GUIButtonValue value_stop, enum GUIButtonValue value_record)
+void gui_botton_set(enum GUIButtonValue value_play, enum GUIButtonValue value_stop, enum GUIButtonValue value_record);
 
 /**
  * @brief Clears row for displaying available record sections

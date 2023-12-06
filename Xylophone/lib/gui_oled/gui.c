@@ -85,12 +85,21 @@ void gui_button_clear(enum GUIDisplayUpdate change)
 
 void gui_botton_toggle(enum GUIButton button)
 {
-    gui_botton_set(button, !button_selected[button]);
+    enum GUIButtonValue value_play, value_stop, value_record;
+    value_play = button_selected[PLAY];
+    value_stop = button_selected[STOP];
+    value_record = button_selected[RECORD];
+    if(button == PLAY) value_play = !button_selected[button];
+    if(button == STOP) value_stop = !button_selected[button];
+    if(button == RECORD) value_record = !button_selected[button];
+    gui_botton_set(value_play, value_stop, value_record);
 }
 
-void gui_botton_set(enum GUIButton button, enum GUIButtonValue value)
+void gui_botton_set(enum GUIButtonValue value_play, enum GUIButtonValue value_stop, enum GUIButtonValue value_record)
 {
-    button_selected[button] = value;
+    button_selected[PLAY] = value_play;
+    button_selected[STOP] = value_stop;
+    button_selected[RECORD] = value_record;
     // Crawing potantiali momorized content to display
     oled_display();
     // Clearing modes section, but not diplaying it yet
