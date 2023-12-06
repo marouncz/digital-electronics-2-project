@@ -133,9 +133,10 @@ void gui_record_clear(enum GUIDisplayUpdate change);
  * @brief Display selected record on display
  * 
  * @param record_num record number = <0, 3>
+ * @param change either MEMORIZE or DISPLAY display changes immediately
  * @return none
  */
-void gui_record_set(uint8_t record_num);
+void gui_record_set(uint8_t record_num, enum GUIDisplayUpdate change);
 
 /**
  * @brief Selects next record 

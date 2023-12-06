@@ -54,11 +54,11 @@ void gui_init(void)
     oled_clrscr();
 
     // State buttons
-    gui_button_clear(DISPLAY);
+    gui_button_clear(MEMORIZE);
 
     // Available tone resp. buttons on xylophone
-    gui_record_clear(DISPLAY);
-    gui_record_set(record_selected);
+    gui_record_clear(MEMORIZE);
+    gui_record_set(record_selected, MEMORIZE);
     
     // Draw music sheet
     gui_lines();
@@ -147,10 +147,8 @@ void gui_record_clear(enum GUIDisplayUpdate change)
     if(change == DISPLAY) oled_display();
 }
 
-void gui_record_set(uint8_t record_num)
+void gui_record_set(uint8_t record_num, enum GUIDisplayUpdate change)
 {
-    // Crawing potantiali momorized content to display
-    oled_display();
     // Clearing records section, but not diplaying it yet
     // That way at least one selection of record is displayed
     gui_record_clear(MEMORIZE);
@@ -165,8 +163,9 @@ void gui_record_set(uint8_t record_num)
         oled_gotoxy(14, GUI_DISP_MODES_ROW);
         oled_puts("      ");        
     }
+
     // Copy buffer to display RAM
-    oled_display();
+    if(change == DISPLAY) oled_display();
     record_selected = record_num;
 }
 
@@ -176,7 +175,7 @@ uint8_t gui_record_shift()
     if(record_selected >= (sizeof(records_str_p) / sizeof(records_str_p[0])) - 1) record_selected = 0;
     else record_selected++;
     // Display next
-    gui_record_set(record_selected);
+    gui_record_set(record_selected, DISPLAY);
     return record_selected;
 }
 

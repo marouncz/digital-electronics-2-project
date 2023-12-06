@@ -59,12 +59,13 @@ volatile uint8_t regData_d = 0;
 /* Function definitions ----------------------------------------------*/
 int main(void)
 {
-  // Init GUI on oled display
-  gui_init();
   GPIO_setup_xylophone(); // Pin direction setup
   SPI_init();
   GPIO_mode_input_pullup(&DDRD, 2);
   uart_init(UART_BAUD_SELECT(115200, F_CPU));
+
+  // Init GUI on oled display
+  gui_init();
 
   TIM1_OVF_4MS;
   TIM1_OVF_ENABLE;
