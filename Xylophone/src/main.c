@@ -52,7 +52,9 @@ volatile uint8_t mem_debug = 0;
 volatile uint8_t trackNumber = 1;
 volatile uint8_t playbackNum;
 
-volatile uint8_t regData = 0;
+volatile uint8_t dingTime[8] = {0};
+volatile uint8_t regData_d = 0;
+
 
 /* Function definitions ----------------------------------------------*/
 int main(void)
@@ -97,8 +99,18 @@ int main(void)
     }
 
     // UI
-    static uint8_t regData_prev = 0;
+    if(regData_d > 0)
+    {
+      gui_sheet_set(regData_d);
+      regData_d = 0;
+    }
+    else
+    {
+      gui_sheet_update();
+    }
+    
   }
+  
 
   // Will never reach this
   return 0;
@@ -111,7 +123,8 @@ int main(void)
  */
 ISR(TIMER1_OVF_vect)
 {
-  static uint8_t dingTime[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+  static uint8_t regData = 0;
+  regData = 0;
 
   GPIO_read_pins(&currButtonState);
 
@@ -134,8 +147,9 @@ ISR(TIMER1_OVF_vect)
       dingTime[i]--;
     }
   }
-
-  if (playbackFlag)
+  regData_d = regData;
+  
+  if(playbackFlag)
   {
     switch (playbackNum)
     {
@@ -148,9 +162,7 @@ ISR(TIMER1_OVF_vect)
       if (memory_timeStamp[memoryCounter] == 0)
       {
         playbackFlag = 0;
-        gui_botton_set(PLAY, SET);
-        gui_botton_set(STOP, RESET);
-        gui_botton_set(RECORD, RESET);
+        gui_botton_set(RESET, SET, RESET);
       }
       break;
 
@@ -196,7 +208,8 @@ ISR(TIMER1_OVF_vect)
   }
 
   // TODO: find space in code for wrinting to display
-  /*uint8_t changed = 0;
+  /*
+  uint8_t changed = 0;
   for (uint8_t i = 0; i < sizeof(dingTime); i++)
   {
     if (currButtonState[i] == 0 && prevButtonState[i] == 1)
@@ -214,7 +227,6 @@ ISR(TIMER1_OVF_vect)
   }*/
 
   SPI_shift(regData);
-  regData = 0;
 
   if (currButtonState[11] == 0 && prevButtonState[11] == 1)
   { // Shift playback
@@ -227,16 +239,12 @@ ISR(TIMER1_OVF_vect)
     recFlag = 1;
     memoryCounter = 0;
     uart_puts("Recording started\n");
-    gui_botton_set(PLAY, RESET);
-    gui_botton_set(STOP, RESET);
-    gui_botton_set(RECORD, SET);
+    gui_botton_set(RESET, RESET, SET);
   }
   if (currButtonState[9] == 0 && prevButtonState[9] == 1)
   { // Stop
     uart_puts("Recording stoped\n");
-    gui_botton_set(PLAY, RESET);
-    gui_botton_set(STOP, SET);
-    gui_botton_set(RECORD, RESET);
+    gui_botton_set(RESET, SET, RESET);
     recFlag = 0;
     mem_debug = 1;
     memory_timeStamp[memoryCounter] = 0;
@@ -245,9 +253,7 @@ ISR(TIMER1_OVF_vect)
   if (currButtonState[8] == 0 && prevButtonState[8] == 1)
   { // Play
     uart_puts("Playback started\n");
-    gui_botton_set(PLAY, SET);
-    gui_botton_set(STOP, RESET);
-    gui_botton_set(RECORD, RESET);
+    gui_botton_set(SET, RESET, RESET);  
     playbackFlag = 1;
     timeStamp = 0;
     memoryCounter = 0;

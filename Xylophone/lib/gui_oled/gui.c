@@ -28,7 +28,7 @@ struct GUISheetRow_t
     
 };
 
-const char tones[] = {'C', 'B', 'A', 'G', 'F', 'E', 'D', 'C'};
+const char tones[] = {'C', 'D', 'E', 'F', 'G', 'A', 'H', 'C'};
 static uint8_t sheet_row_regs[5] = {0, 0, 0, 0, 0};
 
 
