@@ -147,7 +147,7 @@ uint8_t gui_record_shift(void);
  * @brief Clears all lines of musical sheet
  * @return none
  */
-void gui_sheet_clear(void);
+void gui_lines(void);
 
 /**
  * @brief Draw tones to musical sheet

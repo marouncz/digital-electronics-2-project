@@ -79,7 +79,7 @@ int main(void)
   // Main loop
   while (1)
   {
-    if (mem_debug)
+    /*if(mem_debug)
     {
       uart_puts("Memory content\n");
       for (uint8_t i = 0; i < MEM_LEN; i++)
@@ -91,7 +91,7 @@ int main(void)
         uart_puts("\n");
       }
       mem_debug = 0;
-    }
+    }*/
 
     // UI
     if(regData_d > 0)
@@ -153,7 +153,7 @@ ISR(TIMER1_OVF_vect)
       if(memory_timeStamp[memoryCounter] == 0)
       {
         playbackFlag = 0;
-        gui_botton_toggle(PLAY);
+        gui_botton_set(RESET, SET, RESET);
       }
       break;
 
@@ -166,6 +166,7 @@ ISR(TIMER1_OVF_vect)
       if(pgm_read_word(&flashSongsTimeStamp1[memoryCounter]) == 0)
       {
         playbackFlag = 0;
+        gui_botton_set(RESET, SET, RESET);
       }
       break;
 
@@ -178,6 +179,7 @@ ISR(TIMER1_OVF_vect)
       if(pgm_read_word(&flashSongsTimeStamp2[memoryCounter]) == 0)
       {
         playbackFlag = 0;
+        gui_botton_set(RESET, SET, RESET);
       }
       break;
 
@@ -190,6 +192,7 @@ ISR(TIMER1_OVF_vect)
       if(pgm_read_word(&flashSongsTimeStamp3[memoryCounter]) == 0)
       {
         playbackFlag = 0;
+        gui_botton_set(RESET, SET, RESET);
       }
       break;
     
@@ -232,14 +235,12 @@ ISR(TIMER1_OVF_vect)
     recFlag = 1;
     memoryCounter = 0;
     uart_puts("Recording started\n");
-    gui_button_clear(DISPLAY);
-    gui_botton_toggle(RECORD);
+    gui_botton_set(RESET, RESET, SET);
   }
   if (currButtonState[9] == 0 && prevButtonState[9] == 1)
   { // Stop
     uart_puts("Recording stoped\n");
-    gui_button_clear(DISPLAY);
-    gui_botton_toggle(STOP);
+    gui_botton_set(RESET, SET, RESET);
     recFlag = 0;
     mem_debug = 1;
     memory_timeStamp[memoryCounter] = 0;
@@ -248,8 +249,7 @@ ISR(TIMER1_OVF_vect)
   if (currButtonState[8] == 0 && prevButtonState[8] == 1)
   { // Play
     uart_puts("Playback started\n");
-    gui_button_clear(DISPLAY);
-    gui_botton_toggle(PLAY);
+    gui_botton_set(SET, RESET, RESET);
     playbackFlag = 1;
     timeStamp = 0;
     memoryCounter = 0;

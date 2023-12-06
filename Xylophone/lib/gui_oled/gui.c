@@ -14,12 +14,13 @@
 /* Includes ----------------------------------------------------------*/
 #include "gui.h"
 #include <string.h>
+#include "uart.h"
 
 /* Local variables ---------------------------------------------------*/
 static uint8_t record_selected = 0;
 char* const records_str_p[] PROGMEM = {"1 ", "2 ", "3 ", "4 "};
 
-static uint8_t button_selected[] = {0, 1, 0};
+static uint8_t button_selected[] = {0, 0, 0};
 char* const modes_str_p[] = {"PLAY", "STOP", "RECORD"};
 
 struct GUISheetRow_t
@@ -54,13 +55,6 @@ void gui_init(void)
 
     // State buttons
     gui_button_clear(DISPLAY);
-    // Invert all elements in the button_selected array to toggle them
-    for (uint8_t i = 0; i < sizeof(button_selected); i++) {
-        button_selected[i] = !button_selected[i];
-    }
-    gui_botton_toggle(PLAY);
-    gui_botton_toggle(STOP);
-    gui_botton_toggle(RECORD);
 
     // Available tone resp. buttons on xylophone
     gui_record_clear(DISPLAY);
@@ -85,6 +79,7 @@ void gui_button_clear(enum GUIDisplayUpdate change)
     if(change == DISPLAY) oled_display();
 }
 
+/*
 void gui_botton_toggle(enum GUIButton button)
 {
     enum GUIButtonValue value_play, value_stop, value_record;
@@ -96,40 +91,46 @@ void gui_botton_toggle(enum GUIButton button)
     if(button == RECORD) value_record = !button_selected[button];
     gui_botton_set(value_play, value_stop, value_record);
 }
+*/
 
 void gui_botton_set(enum GUIButtonValue value_play, enum GUIButtonValue value_stop, enum GUIButtonValue value_record)
 {
-    button_selected[PLAY] = value_play;
-    button_selected[STOP] = value_stop;
-    button_selected[RECORD] = value_record;
-    // Crawing potantiali momorized content to display
+    // Drawing potantiali momorized content to display
     oled_display();
     // Clearing modes section, but not diplaying it yet
     // That way at least one selection of record is displayed
-    gui_button_clear(MEMORIZE);
+    //gui_button_clear(MEMORIZE);
 
+    uart_putc(button_selected[PLAY] + 48);
+    uart_putc(button_selected[STOP] + 48);
+    uart_putc(button_selected[RECORD] + 48);
     // Select mode by inverting pixel at its position
     for(uint8_t i = 0; i < sizeof(button_selected); i++)
     {
-        if(button_selected[i])
+        uint8_t string_length = strlen(modes_str_p[i]);
+        switch(i)
         {
-            uint8_t string_length = strlen(modes_str_p[i]);
-            switch(i)
-            {
-            case PLAY:
+        case PLAY:
+            if(value_play != button_selected[PLAY])
                 gui_buffer_invert_section(2 * _GUI_FONT_WIDTH, GUI_DISP_MODES_ROW, string_length * _GUI_FONT_WIDTH + 1);
-                break;
-            case STOP:
+            break;
+        case STOP:
+            if(value_stop != button_selected[STOP])
                 gui_buffer_invert_section(8 * _GUI_FONT_WIDTH, GUI_DISP_MODES_ROW, string_length * _GUI_FONT_WIDTH + 1);
-                break;
-            case RECORD:
+            break;
+        case RECORD:
+            if(value_record != button_selected[RECORD])
                 gui_buffer_invert_section(14 * _GUI_FONT_WIDTH, GUI_DISP_MODES_ROW, string_length * _GUI_FONT_WIDTH + 1);
-                break;
-            default:
-                break;
-            }
+            break;
+        default:
+            break;
         }
     }
+
+    button_selected[PLAY] = value_play;
+    button_selected[STOP] = value_stop;
+    button_selected[RECORD] = value_record;
+    
     // Copy buffer to display RAM
     oled_display();
 }
@@ -155,6 +156,15 @@ void gui_record_set(uint8_t record_num)
     gui_record_clear(MEMORIZE);
     // Select recerd by inverting pixel at its position
     gui_buffer_invert_section((GUI_DISP_RECORDS_COL + record_num * 2) * _GUI_FONT_WIDTH, GUI_DISP_RECORDS_ROW, _GUI_FONT_WIDTH + 1);
+    if (record_selected == 0){
+        //display record button
+        oled_gotoxy(14, GUI_DISP_MODES_ROW);
+        oled_puts("RECORD");
+    } else {
+        //hide record button
+        oled_gotoxy(14, GUI_DISP_MODES_ROW);
+        oled_puts("      ");        
+    }
     // Copy buffer to display RAM
     oled_display();
     record_selected = record_num;
