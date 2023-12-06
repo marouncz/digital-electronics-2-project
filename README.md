@@ -13,9 +13,9 @@ The student project operated within the Bachelor's program of [Digital Electroni
 
 
 ## Hardware description of demo application
-The xylophone consists of individual xylophone bricks that have a coil with a magnetic rod under them, that rises and hits the notes when a current is passed through it. The switching is handeled by LTV-817-C opto-coupler. The couplers are controled by a shift register that is connected to the arduino. The whole assembly is powered by a switching powersupply that has an output of 16VDC.
+The xylophone consists of individual xylophone bricks that have a coil with a magnetic rod under them, that rises and hits the notes when a current is passed through it. The switching is handeled by LTV-817-C opto-coupler. The couplers are controled by a shift register that is connected to the arduino. The whole assembly is powered by a switching powersupply that has an output of 24VDC.
 
-```Xylophone circuit schematic here```
+![Xylophone schematic](img/xylophone_board.svg)
 
 As mentioned above, due to GPIO restriction of used MCU, we used a shift register for the controling of the individual notes. It uses SPI for communiation. Rest of the digital IO pins are used as inputs connected to buttons with enabled pull ups. Final hardware part is an OLED display which is connected with an I2C interface.
 
@@ -45,8 +45,8 @@ The program has 3 memory slots, which the first two are prerecorded melodies and
 
 ## References
 
-1. Write your text here.
-2. ...
+1. Xylophone board designed by 
+2. 
 
 ## TO-DO
 Nakreslit schémátka, video/fotky, dodělat gui interaction
