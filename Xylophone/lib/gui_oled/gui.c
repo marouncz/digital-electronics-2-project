@@ -28,7 +28,7 @@ struct GUISheetRow_t
     
 };
 
-const char tones[] = {'C', 'B', 'A', 'G', 'F', 'E', 'D', 'C'};
+const char tones[] = {'C', 'D', 'E', 'F', 'G', 'A', 'H', 'C'};
 static uint8_t sheet_row_regs[5] = {0, 0, 0, 0, 0};
 
 
@@ -165,6 +165,15 @@ uint8_t gui_record_shift()
     else record_selected++;
     // Display next
     gui_record_set(record_selected);
+    if (record_selected == 0){
+        //display record button
+        oled_gotoxy(14, GUI_DISP_MODES_ROW);
+        oled_puts("RECORD");
+    } else {
+        //hide record button
+        oled_gotoxy(14, GUI_DISP_MODES_ROW);
+        oled_puts("      ");        
+    }
     return record_selected;
 }
 
