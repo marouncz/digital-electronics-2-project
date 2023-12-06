@@ -52,7 +52,9 @@ volatile uint8_t mem_debug = 0;
 volatile uint8_t trackNumber = 1;
 volatile uint8_t playbackNum;
 
-volatile uint8_t regData = 0;
+volatile uint8_t dingTime[8] = {0};
+volatile uint8_t regData_d = 0;
+
 
 /* Function definitions ----------------------------------------------*/
 int main(void)
@@ -92,8 +94,18 @@ int main(void)
     }
 
     // UI
-    static uint8_t regData_prev = 0;
+    if(regData_d > 0)
+    {
+      gui_sheet_set(regData_d);
+      regData_d = 0;
+    }
+    else
+    {
+      gui_sheet_update();
+    }
+    
   }
+  
 
   // Will never reach this
   return 0;
@@ -106,7 +118,8 @@ int main(void)
  */
 ISR(TIMER1_OVF_vect)
 {
-  static uint8_t dingTime[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+  static uint8_t regData = 0;
+  regData = 0;
 
   GPIO_read_pins(&currButtonState);
 
@@ -130,7 +143,8 @@ ISR(TIMER1_OVF_vect)
       dingTime[i]--;
     }
   }
-
+  regData_d = regData;
+  
   if(playbackFlag)
   {
     switch (playbackNum)
@@ -191,7 +205,8 @@ ISR(TIMER1_OVF_vect)
   }
 
   // TODO: find space in code for wrinting to display
-  /*uint8_t changed = 0;
+  /*
+  uint8_t changed = 0;
   for (uint8_t i = 0; i < sizeof(dingTime); i++)
   {
     if (currButtonState[i] == 0 && prevButtonState[i] == 1)
@@ -210,7 +225,6 @@ ISR(TIMER1_OVF_vect)
   
 
   SPI_shift(regData);
-  regData = 0;
 
   if (currButtonState[11] == 0 && prevButtonState[11] == 1)
   { // Shift playback
