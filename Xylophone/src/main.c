@@ -66,7 +66,7 @@ int main(void)
   TIM1_OVF_ENABLE;
   sei();
 
-  /*uart_putc(pgm_read_word(&flashSongsNote1[4])+48); 
+  /*uart_putc(pgm_read_word(&flashSongsNote1[4])+48);
   char str[4];
   itoa(pgm_read_byte(&flashSongsTimeStamp1[4]), str, 10);
   uart_puts("\n");
@@ -118,7 +118,6 @@ ISR(TIMER1_OVF_vect)
         memoryCounter++;
         uart_putc(memoryCounter + 48);
       }
-
     }
     if (dingTime[i] > 0)
     {
@@ -127,63 +126,64 @@ ISR(TIMER1_OVF_vect)
     }
   }
 
-  if(playbackFlag)
+  if (playbackFlag)
   {
     switch (playbackNum)
     {
     case 0:
-      if(memory_timeStamp[memoryCounter] == timeStamp)
+      if (memory_timeStamp[memoryCounter] == timeStamp)
       {
-        dingTime[memory_note[memoryCounter]] = DING_DUR; 
+        dingTime[memory_note[memoryCounter]] = DING_DUR;
         memoryCounter++;
       }
-      if(memory_timeStamp[memoryCounter] == 0)
+      if (memory_timeStamp[memoryCounter] == 0)
       {
         playbackFlag = 0;
-        gui_botton_toggle(PLAY);
+        gui_botton_set(PLAY, SET);
+        gui_botton_set(STOP, RESET);
+        gui_botton_set(RECORD, RESET);
       }
       break;
 
-    case 1:          
-      if(pgm_read_word(&flashSongsTimeStamp1[memoryCounter]) == timeStamp)
+    case 1:
+      if (pgm_read_word(&flashSongsTimeStamp1[memoryCounter]) == timeStamp)
       {
-        dingTime[pgm_read_byte(&flashSongsNote1[memoryCounter])] = DING_DUR; 
+        dingTime[pgm_read_byte(&flashSongsNote1[memoryCounter])] = DING_DUR;
         memoryCounter++;
       }
-      if(pgm_read_word(&flashSongsTimeStamp1[memoryCounter]) == 0)
+      if (pgm_read_word(&flashSongsTimeStamp1[memoryCounter]) == 0)
       {
         playbackFlag = 0;
       }
       break;
 
     case 2:
-      if(pgm_read_word(&flashSongsTimeStamp2[memoryCounter]) == timeStamp)
+      if (pgm_read_word(&flashSongsTimeStamp2[memoryCounter]) == timeStamp)
       {
-        dingTime[pgm_read_byte(&flashSongsNote2[memoryCounter])] = DING_DUR; 
+        dingTime[pgm_read_byte(&flashSongsNote2[memoryCounter])] = DING_DUR;
         memoryCounter++;
       }
-      if(pgm_read_word(&flashSongsTimeStamp2[memoryCounter]) == 0)
+      if (pgm_read_word(&flashSongsTimeStamp2[memoryCounter]) == 0)
       {
         playbackFlag = 0;
       }
       break;
 
     case 3:
-      if(pgm_read_word(&flashSongsTimeStamp3[memoryCounter]) == timeStamp)
+      if (pgm_read_word(&flashSongsTimeStamp3[memoryCounter]) == timeStamp)
       {
-        dingTime[pgm_read_byte(&flashSongsNote3[memoryCounter])] = DING_DUR; 
+        dingTime[pgm_read_byte(&flashSongsNote3[memoryCounter])] = DING_DUR;
         memoryCounter++;
       }
-      if(pgm_read_word(&flashSongsTimeStamp3[memoryCounter]) == 0)
+      if (pgm_read_word(&flashSongsTimeStamp3[memoryCounter]) == 0)
       {
         playbackFlag = 0;
       }
       break;
-    
+
     default:
       break;
     }
-
   }
 
   // TODO: find space in code for wrinting to display
@@ -203,7 +203,6 @@ ISR(TIMER1_OVF_vect)
   {
     gui_sheet_update();
   }*/
-  
 
   SPI_shift(regData);
   regData = 0;
@@ -219,14 +218,16 @@ ISR(TIMER1_OVF_vect)
     recFlag = 1;
     memoryCounter = 0;
     uart_puts("Recording started\n");
-    gui_button_clear(DISPLAY);
-    gui_botton_toggle(RECORD);
+    gui_botton_set(PLAY, RESET);
+    gui_botton_set(STOP, RESET);
+    gui_botton_set(RECORD, SET);
   }
   if (currButtonState[9] == 0 && prevButtonState[9] == 1)
   { // Stop
     uart_puts("Recording stoped\n");
-    gui_button_clear(DISPLAY);
-    gui_botton_toggle(STOP);
+    gui_botton_set(PLAY, RESET);
+    gui_botton_set(STOP, SET);
+    gui_botton_set(RECORD, RESET);
     recFlag = 0;
     mem_debug = 1;
     memory_timeStamp[memoryCounter] = 0;
@@ -235,8 +236,9 @@ ISR(TIMER1_OVF_vect)
   if (currButtonState[8] == 0 && prevButtonState[8] == 1)
   { // Play
     uart_puts("Playback started\n");
-    gui_button_clear(DISPLAY);
-    gui_botton_toggle(PLAY);
+    gui_botton_set(PLAY, SET);
+    gui_botton_set(STOP, RESET);
+    gui_botton_set(RECORD, RESET);
     playbackFlag = 1;
     timeStamp = 0;
     memoryCounter = 0;
