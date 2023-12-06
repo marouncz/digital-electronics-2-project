@@ -115,13 +115,12 @@ void gui_button_clear(enum GUIDisplayUpdate change);
 void gui_botton_toggle(enum GUIButton button);
 
 /**
- * @brief Show / clear selected button on display
+ * @brief Show / clear selected buttons on display
  * 
- * @param button either PLAY, SELECT or RECORD, refer to GUIButtons enum
  * @param value either SET or RESET, refer to GUIButtonValue enum
  * @return none
  */
-void gui_botton_set(enum GUIButton button, enum GUIButtonValue value);
+void gui_botton_set(enum GUIButtonValue value_play, enum GUIButtonValue value_stop, enum GUIButtonValue value_record);
 
 /**
  * @brief Clears row for displaying available record sections

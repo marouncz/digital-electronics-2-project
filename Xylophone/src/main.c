@@ -52,6 +52,8 @@ volatile uint8_t mem_debug = 0;
 volatile uint8_t trackNumber = 1;
 volatile uint8_t playbackNum;
 
+volatile uint8_t regData = 0;
+
 /* Function definitions ----------------------------------------------*/
 int main(void)
 {
@@ -88,6 +90,9 @@ int main(void)
       }
       mem_debug = 0;
     }
+
+    // UI
+    static uint8_t regData_prev = 0;
   }
 
   // Will never reach this
@@ -102,7 +107,6 @@ int main(void)
 ISR(TIMER1_OVF_vect)
 {
   static uint8_t dingTime[8] = {0, 0, 0, 0, 0, 0, 0, 0};
-  static uint8_t regData = 0;
 
   GPIO_read_pins(&currButtonState);
 
