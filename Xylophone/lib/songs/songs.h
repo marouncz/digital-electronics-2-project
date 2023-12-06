@@ -32,4 +32,3 @@ const uint8_t flashSongsNote3[] PROGMEM = {
 
 #endif
 
-0, 2, 4, 0, 2, 4, 2, 2, 1, 2, 3, 1, 2, 2, 1, 2, 3, 1, 2, 1, 0, 2, 4, 0
