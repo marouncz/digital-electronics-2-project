@@ -55,7 +55,6 @@ volatile uint8_t playbackNum;
 volatile uint8_t dingTime[8] = {0};
 volatile uint8_t regData_d = 0;
 
-
 /* Function definitions ----------------------------------------------*/
 int main(void)
 {
@@ -71,37 +70,16 @@ int main(void)
   TIM1_OVF_ENABLE;
   sei();
 
-  /*uart_putc(pgm_read_word(&flashSongsNote1[4])+48); 
-  char str[4];
-  itoa(pgm_read_byte(&flashSongsTimeStamp1[4]), str, 10);
-  uart_puts("\n");
-  uart_puts(str); */
-
   // Main loop
   while (1)
   {
-    /*if(mem_debug)
-    {
-      uart_puts("Memory content\n");
-      for (uint8_t i = 0; i < MEM_LEN; i++)
-      {
-        uart_putc(memory_note[i] + 48);
-        uart_puts("   ");
-        char str[8];
-        uart_puts(itoa(memory_timeStamp[i], str, 10));
-        uart_puts("\n");
-      }
-      mem_debug = 0;
-    }*/
-
     // UI
-    if(regData_d > 0)
+    if (regData_d > 0)
     {
       gui_sheet_set(regData_d);
       regData_d = 0;
     }
   }
-  
 
   // Will never reach this
   return 0;
@@ -131,7 +109,6 @@ ISR(TIMER1_OVF_vect)
         memoryCounter++;
         uart_putc(memoryCounter + 48);
       }
-
     }
     if (dingTime[i] > 0)
     {
@@ -140,31 +117,33 @@ ISR(TIMER1_OVF_vect)
     }
   }
   regData_d = regData;
-  
-  if(playbackFlag)
+
+  if (playbackFlag)
   {
     switch (playbackNum)
     {
     case 0:
-      if(memory_timeStamp[memoryCounter] == timeStamp)
+    //Playback of user rewriteable song stored in RAM
+      if (memory_timeStamp[memoryCounter] == timeStamp)
       {
-        dingTime[memory_note[memoryCounter]] = DING_DUR; 
+        dingTime[memory_note[memoryCounter]] = DING_DUR;
         memoryCounter++;
       }
-      if(memory_timeStamp[memoryCounter] == 0)
+      if (memory_timeStamp[memoryCounter] == 0)
       {
         playbackFlag = 0;
         gui_botton_set(RESET, SET, RESET);
       }
       break;
 
-    case 1:          
-      if(pgm_read_word(&flashSongsTimeStamp1[memoryCounter]) == timeStamp)
+    case 1:
+    //Playback of first song stored in FLASH
+      if (pgm_read_word(&flashSongsTimeStamp1[memoryCounter]) == timeStamp)
       {
-        dingTime[pgm_read_byte(&flashSongsNote1[memoryCounter])] = DING_DUR; 
+        dingTime[pgm_read_byte(&flashSongsNote1[memoryCounter])] = DING_DUR;
         memoryCounter++;
       }
-      if(pgm_read_word(&flashSongsTimeStamp1[memoryCounter]) == 0)
+      if (pgm_read_word(&flashSongsTimeStamp1[memoryCounter]) == 0)
       {
         playbackFlag = 0;
         gui_botton_set(RESET, SET, RESET);
@@ -172,12 +151,13 @@ ISR(TIMER1_OVF_vect)
       break;
 
     case 2:
-      if(pgm_read_word(&flashSongsTimeStamp2[memoryCounter]) == timeStamp)
+    //Playback of second song stored in FLASH
+      if (pgm_read_word(&flashSongsTimeStamp2[memoryCounter]) == timeStamp)
       {
-        dingTime[pgm_read_byte(&flashSongsNote2[memoryCounter])] = DING_DUR; 
+        dingTime[pgm_read_byte(&flashSongsNote2[memoryCounter])] = DING_DUR;
         memoryCounter++;
       }
-      if(pgm_read_word(&flashSongsTimeStamp2[memoryCounter]) == 0)
+      if (pgm_read_word(&flashSongsTimeStamp2[memoryCounter]) == 0)
       {
         playbackFlag = 0;
         gui_botton_set(RESET, SET, RESET);
@@ -185,53 +165,35 @@ ISR(TIMER1_OVF_vect)
       break;
 
     case 3:
-      if(pgm_read_word(&flashSongsTimeStamp3[memoryCounter]) == timeStamp)
+    //Playback of third song stored in FLASHw
+      if (pgm_read_word(&flashSongsTimeStamp3[memoryCounter]) == timeStamp)
       {
-        dingTime[pgm_read_byte(&flashSongsNote3[memoryCounter])] = DING_DUR; 
+        dingTime[pgm_read_byte(&flashSongsNote3[memoryCounter])] = DING_DUR;
         memoryCounter++;
       }
-      if(pgm_read_word(&flashSongsTimeStamp3[memoryCounter]) == 0)
+      if (pgm_read_word(&flashSongsTimeStamp3[memoryCounter]) == 0)
       {
         playbackFlag = 0;
         gui_botton_set(RESET, SET, RESET);
       }
       break;
-    
+
     default:
       break;
     }
-
   }
-
-  // TODO: find space in code for wrinting to display
-  /*
-  uint8_t changed = 0;
-  for (uint8_t i = 0; i < sizeof(dingTime); i++)
-  {
-    if (currButtonState[i] == 0 && prevButtonState[i] == 1)
-    {
-      changed = 1;
-    }
-  }
-  if(changed)
-  {
-    gui_sheet_set(regData);
-  }
-  else
-  {
-    gui_sheet_update();
-  }*/
-  
 
   SPI_shift(regData);
 
   if (currButtonState[11] == 0 && prevButtonState[11] == 1)
-  { // Shift playback
+  { //4th button pressed 
+    // Shift playback
     uart_puts("Select next record\n");
     playbackNum = gui_record_shift();
   }
   if (currButtonState[10] == 0 && prevButtonState[10] == 1)
-  { // Record
+  { //3rd button pressed
+    // Record
     timeStamp = 0;
     recFlag = 1;
     memoryCounter = 0;
@@ -239,7 +201,8 @@ ISR(TIMER1_OVF_vect)
     gui_botton_set(RESET, RESET, SET);
   }
   if (currButtonState[9] == 0 && prevButtonState[9] == 1)
-  { // Stop
+  { //2nd button pressed
+    // Stop
     uart_puts("Recording stoped\n");
     gui_botton_set(RESET, SET, RESET);
     recFlag = 0;
@@ -248,18 +211,19 @@ ISR(TIMER1_OVF_vect)
     playbackFlag = 0;
   }
   if (currButtonState[8] == 0 && prevButtonState[8] == 1)
-  { // Play
+  { //1st button pressed
+    // Play
     uart_puts("Playback started\n");
     gui_botton_set(SET, RESET, RESET);
     playbackFlag = 1;
     timeStamp = 0;
     memoryCounter = 0;
   }
-
+  //copy button state to prevButtonState
   for (uint8_t i = 0; i < sizeof(currButtonState); i++)
   {
     prevButtonState[i] = currButtonState[i];
   }
-
+  //increase timestamp for song time tracking
   timeStamp++;
 }
