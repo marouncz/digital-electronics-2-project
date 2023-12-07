@@ -1,4 +1,4 @@
-# DE2 project - Synthesizer
+# DE2 project - Electronicaly controled xylophone
 The student project operated within the Bachelor's program of [Digital Electronics 2](https://github.com/tomas-fryza/digital-electronics-2/tree/master/labs/09-project) at Brno University of Technology.
 ### Team members
 
@@ -39,7 +39,7 @@ Pressing the record button, while having the first melody slot selected will sta
 ### Playback
 The program has 3 memory slots, which the first two are prerecorded melodies and the last one is reveserved for the user. You can cycle between them using the select button. After selecting the wanted memory slot you can play it using the PLAY button.
 
-### [Video demonstration](youtube.com/)
+### [Video demonstration](https://youtu.be/ymcIcWMrQOg)
 
 ## References
 
