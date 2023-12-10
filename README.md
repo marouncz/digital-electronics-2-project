@@ -12,7 +12,7 @@ The student project operated within the Bachelor's program of [Digital Electroni
 
 
 ## Theoretical and hardware description
-The xylophone consists of individual xylophone bricks that have a coil with a magnetic rod under them, that rises and hits the notes when a current is passed through it. The switching is handeled by LTV-817-C opto-coupler. The couplers are controled by a shift register that is connected to the arduino. The whole assembly is powered by a switching powersupply that has an output of 24VDC.
+The xylophone consists of individual xylophone bricks that have a coil with a magnetic rod under them, that rises and hits the notes when a current is passed through it. The switching is handeled by LTV-817-C opto-coupler. The couplers are controled by a 74HC595 shift register that is connected to the arduino. The whole assembly is powered by a switching powersupply that has an output of 24VDC.
 
 ![Xylophone schematic](img/xylophone_board.svg)
 
@@ -42,11 +42,12 @@ Make sure that the xylophone and arduino are both plugged in. If everything is c
 After powering on, the unit is ready to play. Press any button and play whatever song or melody you want.
 
 ### Recording
-Pressing the record button, while having the first melody slot selected will start the recording of played notes. ``RECORD`` will get highlighted on the display. To stop the recording press the STOP button, which stops and saves the recording.
+Pressing the record button, while having the first melody slot selected will start the recording of played notes. ``RECORD`` will get highlighted on the display. To stop the recording press the STOP button, which stops and saves the recording to RAM. You can 
 > **Note:** The maximum recording length is 70 notes, exceeding the limit will stop the recording
 
 ### Playback
-The program has 3 memory slots, which the first two are prerecorded melodies and the last one is reveserved for the user. You can cycle between them using the select button. After selecting the wanted memory slot you can play it using the PLAY button.
+The program has 4 memory slots, which the last three are prerecorded melodies located in FLASH memory. You can cycle between them using the select button. After selecting the wanted memory slot you can play it using the PLAY button.
+> **Note:** For adding/changing your own melodies in FLASH see: [Crating your own melodies](#creating-your-own-melodies-on-flash-memory)
 
 ### [Video demonstration](https://youtu.be/ymcIcWMrQOg)
 
@@ -57,9 +58,10 @@ When in the recording mode, after playing all your notes and pressing the STOP b
 
 1. Xylophone original board designed by Čepek Hlaváč
 2. [ATMEGA328P datasheet](https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-7810-Automotive-Microcontrollers-ATmega328P_Datasheet.pdf)
-3. 
+3. [74HC595 datasheet](https://www.ti.com/lit/ds/symlink/sn74hc595.pdf)
+4. Leanring materials from Digital Electronics 2 course.
 
-## Contribution guide
+<!-- ## Contribution guide
 
 Your code should be documented in doxygen supported syntax.
 > **Note:** For full introduction doxygen documentation see [here](https://embeddedinventor.com/guide-to-configure-doxygen-to-document-c-source-code-for-beginners/).
@@ -92,4 +94,4 @@ Here is and example of a Doxygen type documentation for function xylophone:
  * @endcode
  */
 int xylophone(const int melody[], int duration, int *sound_level);
-```
+``` -->
