@@ -22,7 +22,11 @@ As mentioned above, due to GPIO restriction of used MCU, we used a shift registe
 ## Software description
 Full software doxygen documentation available at [Xylophone DOC](https://marouncz.github.io/digital-electronics-2-project/).
 
-Put flowchats of your algorithm(s) and direct links to source files in `src` or `lib` folders.
+### Main
+Main function of the code is mostly unsused. Everything is handeled by a counter0 interupt.
+
+### Counter overflow interupt
+![Interupt diagram](img/Counter_overflow_interupt.svg)
 
 ## Instructions
 ### Powering on
