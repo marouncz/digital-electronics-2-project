@@ -17,6 +17,7 @@ The xylophone consists of individual xylophone bricks that have a coil with a ma
 ![Xylophone schematic](img/xylophone_board.svg)
 
 As mentioned above, due to GPIO restriction of used MCU, we used a shift register for the controling of the individual notes. It uses SPI for communiation. Rest of the digital IO pins are used as inputs connected to buttons with enabled pull ups. Final hardware part is an OLED display which is connected with an I2C interface.
+
 ![Arduino circuit](img/circuit.png)
 
 ## Software description
@@ -31,7 +32,7 @@ Only the GUI update call is located in the main loop. Its purpose is to fetch if
 ### Timer1 overflow
 ![Interupt diagram](img/Counter_overflow_interupt.svg)
 
-Since the timer overflows every 4ms the interrupt function is used as a loop. Firstly it checks if any button state has changed. Then checks if the recording flag is set, if so it records the button status and saves its time. Function then continues and checks if the playback mode is set, If it is then it runs the according melody algorithm. Lastly it check the GUI buttons and pushes the output to the shift register. This then repeats again every 4ms. Every note stays on for 4 loops, which is 4ms. Holding the button for any longer will not effect this. It is possible to play during the playback phase, because both algorithms write into the same temporary output register which is later sent to the output.
+Since the timer overflows every 4ms the interrupt function is used as a loop. Firstly it checks if any button state has changed. Then checks if the recording flag is set, if so it records the button status and saves its timestamp(number of overflows). Function then continues and checks if the playback mode is set, If it is then it runs the according melody algorithm. Lastly it check the GUI buttons and pushes the output to the shift register. This then repeats again every 4ms. Every note stays on for 4 loops, which is 4ms. Holding the button for any longer will not effect this. It is possible to play during the playback phase, because both algorithms write into the same temporary output register which is later sent to the output.
 
 ## Instructions
 ### Powering on
@@ -42,7 +43,7 @@ Make sure that the xylophone and arduino are both plugged in. If everything is c
 After powering on, the unit is ready to play. Press any button and play whatever song or melody you want.
 
 ### Recording
-Pressing the record button, while having the first melody slot selected will start the recording of played notes. ``RECORD`` will get highlighted on the display. To stop the recording press the STOP button, which stops and saves the recording to RAM. You can 
+Pressing the record button, while having the first melody slot selected will start the recording of played notes. ``RECORD`` will get highlighted on the display. To stop the recording press the STOP button, which stops and saves the recording to RAM. If you have UART monitoring, you can observe an output of notes and their timestamps.
 > **Note:** The maximum recording length is 70 notes, exceeding the limit will stop the recording
 
 ### Playback
