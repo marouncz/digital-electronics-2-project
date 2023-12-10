@@ -22,11 +22,15 @@ As mentioned above, due to GPIO restriction of used MCU, we used a shift registe
 ## Software description
 Full software doxygen documentation available at [Xylophone DOC](https://marouncz.github.io/digital-electronics-2-project/).
 
-### Main
-Main function of the code is mostly unsused. Everything is handeled by a counter0 interupt.
+### Initialization
+This part of the code contains mostly calls to functions from libraries [GPIO](Xylophone/lib/gpio/gpio.h), [SPI](Xylophone/lib/spi/spi.h) and [GUI](Xylophone/lib/gui_oled/gui.h). They serve to setup the correct GPIO directions, communication speed and User interface layout. Lastly Timer1 is set to overflow every 4ms and an interupt is enabled.
 
-### Counter overflow interupt
+### Main
+Only the GUI updater is located in the main loop. Othervise it is left unsused. Everything else is handeled by in a timer1 interrupt handling function.
+
+### Timer1 overflow interrupt
 ![Interupt diagram](img/Counter_overflow_interupt.svg)
+Since the timer overflows every 4ms the interrupt function is used as a loop. Firstly it checks if any button state has changed. Then checks if the recording flag is set, if so it records the button status and saves its time. Function then continues and checks if the playback mode is set, If it is then it runs the according melody algorithm. Lastly it check the GUI buttons and pushes the output to the shift register. This then repeats again every 4ms. Every note stays on for 4 loops, which is 4ms. Holding the button for any longer will not effect this. It is possible to play during the playback phase, because both algorithms write into the same temporary output register which is later sent to the output.
 
 ## Instructions
 ### Powering on
