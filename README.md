@@ -26,10 +26,11 @@ Full software doxygen documentation available at [Xylophone DOC](https://marounc
 This part of the code contains mostly calls to functions from libraries [GPIO](Xylophone/lib/gpio/gpio.h), [SPI](Xylophone/lib/spi/spi.h) and [GUI](Xylophone/lib/gui_oled/gui.h). They serve to setup the correct GPIO directions, communication speed and User interface layout. Lastly Timer1 is set to overflow every 4ms and an interupt is enabled.
 
 ### Main
-Only the GUI updater is located in the main loop. Othervise it is left unsused. Everything else is handeled by in a timer1 interrupt handling function.
+Only the GUI update call is located in the main loop. Its purpose is to fetch if a note is pressed and show it as a visual idicator. The main loop is othervise left unsused. Everything else is handeled by a timer1 interrupt.
 
-### Timer1 overflow interrupt
+### Timer1 overflow
 ![Interupt diagram](img/Counter_overflow_interupt.svg)
+
 Since the timer overflows every 4ms the interrupt function is used as a loop. Firstly it checks if any button state has changed. Then checks if the recording flag is set, if so it records the button status and saves its time. Function then continues and checks if the playback mode is set, If it is then it runs the according melody algorithm. Lastly it check the GUI buttons and pushes the output to the shift register. This then repeats again every 4ms. Every note stays on for 4 loops, which is 4ms. Holding the button for any longer will not effect this. It is possible to play during the playback phase, because both algorithms write into the same temporary output register which is later sent to the output.
 
 ## Instructions
@@ -48,6 +49,9 @@ Pressing the record button, while having the first melody slot selected will sta
 The program has 3 memory slots, which the first two are prerecorded melodies and the last one is reveserved for the user. You can cycle between them using the select button. After selecting the wanted memory slot you can play it using the PLAY button.
 
 ### [Video demonstration](https://youtu.be/ymcIcWMrQOg)
+
+### Creating your own melodies on FLASH memory
+When in the recording mode, after playing all your notes and pressing the STOP button. A string of all the notes and their accordig time stamps get sent to UART. You can then copy these strings and put them into their according arrays in the [songs.h](Xylophone/lib/songs/songs.h) header file.
 
 ## References
 
