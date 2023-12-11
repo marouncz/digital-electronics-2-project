@@ -14,17 +14,16 @@ The student project operated within the Bachelor's program of [Digital Electroni
 ## Theoretical and hardware description
 The xylophone consists of individual xylophone bricks that have a coil with a magnetic rod under them, that rises and hits the notes when a current is passed through it. The switching is handeled by LTV-817-C opto-coupler. The couplers are controled by a 74HC595 shift register that is connected to the arduino. The whole assembly is powered by a switching powersupply that has an output of 24VDC.
 
-![Xylophone schematic](img/xylophone_board.svg)
-![Connected](img/connected.JPG)
-
 As mentioned above, due to GPIO restriction of used MCU, we used a shift register for the controling of the individual notes. It uses SPI for communiation. Rest of the digital IO pins are used as inputs connected to buttons with enabled pull ups. Final hardware part is an OLED display which is connected with an I2C interface.
 
+![Xylophone schematic](img/xylophone_board.svg)
+![Connected](img/connected.JPG)
 ![Arduino circuit](img/circuit.png)
 
 ## Software description
 Full software doxygen documentation available at [Xylophone DOC](https://marouncz.github.io/digital-electronics-2-project/).
 
-###Libraries
+### Libraries
 - [GPIO](Xylophone/lib/gpio/gpio.h) - Contains functions for controling GPIO pins
 - [GUI_LED](Xylophone/lib/gui_oled/gui.h) - Contains funciton that handle the user interface displayed on an OLED screen
 - [OLED](Xylophone/lib/oled/oled.h) - Library for controling an OLED screen
