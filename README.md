@@ -39,9 +39,10 @@ This part of the code contains mostly calls to functions from libraries [GPIO](X
 Only the GUI update call is located in the main loop. Its purpose is to fetch if a note is pressed and show it as a visual idicator. The main loop is othervise left unsused. Everything else is handeled by a timer1 interrupt.
 
 ### Timer1 overflow
-![Interupt diagram](img/Counter_overflow_interupt.svg)
 
 Since the timer overflows every 4ms the interrupt function is used as a loop. Firstly it checks if any button state has changed. Then checks if the recording flag is set, if so it records the button status and saves its timestamp(number of overflows). Function then continues and checks if the playback mode is set, If it is then it runs the according melody algorithm. Lastly it check the GUI buttons and pushes the output to the shift register. This then repeats again every 4ms. Every note stays on for 4 loops, which is 4ms. Holding the button for any longer will not effect this. It is possible to play during the playback phase, because both algorithms write into the same temporary output register which is later sent to the output.
+
+![Interupt diagram](img/Counter_overflow_interupt.svg)
 
 ## Instructions
 ### Powering on
