@@ -25,7 +25,7 @@ Full software doxygen documentation available at [Xylophone DOC](https://marounc
 
 ### Libraries
 - [GPIO](Xylophone/lib/gpio/gpio.h) - Contains functions for controling GPIO pins
-- [GUI_LED](Xylophone/lib/gui_oled/gui.h) - Contains funciton that handle the user interface displayed on an OLED screen
+- [GUI_LED](Xylophone/lib/gui_oled/gui.h) - Contains functiond that handle the user interface displayed on an OLED screen
 - [OLED](Xylophone/lib/oled/oled.h) - Library for controling an OLED screen
 - [SONGS](Xylophone/lib/songs/songs.h) - Contains header files with songs and timestamps that are later stored in FLASH
 - [SPI](Xylophone/lib/spi/spi.h) - Library for SPI communication
