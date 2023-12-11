@@ -15,6 +15,7 @@ The student project operated within the Bachelor's program of [Digital Electroni
 The xylophone consists of individual xylophone bricks that have a coil with a magnetic rod under them, that rises and hits the notes when a current is passed through it. The switching is handeled by LTV-817-C opto-coupler. The couplers are controled by a 74HC595 shift register that is connected to the arduino. The whole assembly is powered by a switching powersupply that has an output of 24VDC.
 
 ![Xylophone schematic](img/xylophone_board.svg)
+![Connected](img/connected.JPG)
 
 As mentioned above, due to GPIO restriction of used MCU, we used a shift register for the controling of the individual notes. It uses SPI for communiation. Rest of the digital IO pins are used as inputs connected to buttons with enabled pull ups. Final hardware part is an OLED display which is connected with an I2C interface.
 
@@ -22,6 +23,15 @@ As mentioned above, due to GPIO restriction of used MCU, we used a shift registe
 
 ## Software description
 Full software doxygen documentation available at [Xylophone DOC](https://marouncz.github.io/digital-electronics-2-project/).
+
+###Libraries
+- [GPIO](Xylophone/lib/gpio/gpio.h) - Contains functions for controling GPIO pins
+- [GUI_LED](Xylophone/lib/gui_oled/gui.h) - Contains funciton that handle the user interface displayed on an OLED screen
+- [OLED](Xylophone/lib/oled/oled.h) - Library for controling an OLED screen
+- [SONGS](Xylophone/lib/songs/songs.h) - Contains header files with songs and timestamps that are later stored in FLASH
+- [SPI](Xylophone/lib/spi/spi.h) - Library for SPI communication
+- [TWI](Xylophone/lib/twi/twi.h) - Library for I2C communication
+- [UART](Xylophone/lib/uart/uart.h) - Library for UART communication
 
 ### Initialization
 This part of the code contains mostly calls to functions from libraries [GPIO](Xylophone/lib/gpio/gpio.h), [SPI](Xylophone/lib/spi/spi.h) and [GUI](Xylophone/lib/gui_oled/gui.h). They serve to setup the correct GPIO directions, communication speed and User interface layout. Lastly Timer1 is set to overflow every 4ms and an interupt is enabled.
@@ -37,7 +47,6 @@ Since the timer overflows every 4ms the interrupt function is used as a loop. Fi
 ## Instructions
 ### Powering on
 Make sure that the xylophone and arduino are both plugged in. If everything is correct, pressing any note button should play a sound accompanied by a visual indication on the OLED display.
-![Connected](img/connected.JPG)
 
 ### Free play
 After powering on, the unit is ready to play. Press any button and play whatever song or melody you want.
