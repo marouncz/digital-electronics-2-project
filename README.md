@@ -70,6 +70,7 @@ When in the recording mode, after playing all your notes and pressing the STOP b
 2. [ATMEGA328P datasheet](https://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-7810-Automotive-Microcontrollers-ATmega328P_Datasheet.pdf)
 3. [74HC595 datasheet](https://www.ti.com/lit/ds/symlink/sn74hc595.pdf)
 4. Learning materials from Digital Electronics 2 course.
+5. Libraries from [Digital-Electronics-2](https://github.com/tomas-fryza/digital-electronics-2) github repository.
 
 <!-- ## Contribution guide
 
