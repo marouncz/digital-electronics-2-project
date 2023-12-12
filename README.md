@@ -38,11 +38,11 @@ The xylophone consists of individual xylophone bricks that have a coil with a ma
 As mentioned above, due to GPIO restriction of used MCU, we used a shift register for the controling of the individual notes. It uses SPI for communication. Rest of the digital IO pins are used as inputs connected to buttons with enabled pull ups. Final hardware part is an OLED display which is connected with an I2C communication interface.
 
 #### Connection diagram:
-<pictures align="center">
+<picture align="center">
 <source media="(prefers-color-scheme: dark)" srcset="img/Theoretical_diagram.sv">
 <source media="(prefers-color-scheme: light)" srcset="img/Theoretical_diagramlight.svg">
 <img alt="Xylophone_diagram" src="img/Theoretical_diagram.svg">
-</pictures>
+</picture>
 
 
 #### Xylophone board schematic:
