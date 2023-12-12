@@ -46,10 +46,10 @@ As mentioned above, due to GPIO restriction of used MCU, we used a shift registe
 
 
 #### Xylophone board schematic:
-<img src="img/xylophone_board.svg" alt="Xylophone_circuit" class="custom-image">
+<img src="img/xylophone_board.svg" alt="Xylophone_circuit" width="400px" height="auto" align="center">
 
 #### Arduino circuit:
-<img src="img/circuit.png" alt="Arduino_circuit" class="custom-image">
+<img src="img/circuit.png" alt="Arduino_circuit"  width="400px" height="auto" align="center">
 
 ## Software description
 Full software doxygen documentation available at [Xylophone DOC](https://marouncz.github.io/digital-electronics-2-project/).
@@ -134,10 +134,9 @@ Function then continues and checks if the playback mode is set, If it is then it
 This then repeats again every ***4ms***. Every note stays on for ***4 loops***, which is ***16ms***. Holding the button for any longer will not effect this. It is possible to play during the playback phase, because both algorithms write into the same temporary output register which is later sent to the output.
 
 #### Basic flowchart describing the timer overflow handling:
-<img src="" alt="Interupt diagram" class="diagram">
 <p align="center">
 <source media="(prefers-color-scheme: dark)" srcset="img/Counter_overflow_interupt.svg">
-<source media="(prefers-color-scheme: light)" srcset="img/Theoretical_diagramlight.svg">
+<source media="(prefers-color-scheme: light)" srcset="img/Counter_overflow_interupt_light.svg">
 <img alt="Xylophone_diagram" src="img/Counter_overflow_interupt.svg">
 </p>
 
