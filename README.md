@@ -1,4 +1,4 @@
-<!--HTML styling !-->
+<!--HTML styling 
 <style>
 .custom-image {
   width: 700px;
@@ -18,6 +18,7 @@
   margin-right: auto;
 }
 </style>
+!-->
 
 # DE2 project - Electronicaly controled xylophone
 The student project operated within the Bachelor's program of [Digital Electronics 2](https://github.com/tomas-fryza/digital-electronics-2/tree/master/labs/09-project) at Brno University of Technology.
@@ -38,7 +39,7 @@ As mentioned above, due to GPIO restriction of used MCU, we used a shift registe
 
 #### Connection diagram:
 <p align="center">
-<source media="(prefers-color-scheme: dark)" srcset="">
+<source media="(prefers-color-scheme: dark)" srcset="img/Theoretical_diagram.sv">
 <source media="(prefers-color-scheme: light)" srcset="img/Theoretical_diagramlight.svg">
 <img alt="Xylophone_diagram" src="img/Theoretical_diagram.svg">
 </p>
@@ -133,7 +134,13 @@ Function then continues and checks if the playback mode is set, If it is then it
 This then repeats again every ***4ms***. Every note stays on for ***4 loops***, which is ***16ms***. Holding the button for any longer will not effect this. It is possible to play during the playback phase, because both algorithms write into the same temporary output register which is later sent to the output.
 
 #### Basic flowchart describing the timer overflow handling:
-<img src="img/Counter_overflow_interupt.svg" alt="Interupt diagram" class="diagram">
+<img src="" alt="Interupt diagram" class="diagram">
+<p align="center">
+<source media="(prefers-color-scheme: dark)" srcset="img/Counter_overflow_interupt.svg">
+<source media="(prefers-color-scheme: light)" srcset="img/Theoretical_diagramlight.svg">
+<img alt="Xylophone_diagram" src="img/Counter_overflow_interupt.svg">
+</p>
+
 
 ## Instructions
 ### 1. Powering on
