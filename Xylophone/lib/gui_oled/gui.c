@@ -23,12 +23,6 @@ char* const records_str_p[] PROGMEM = {"1 ", "2 ", "3 ", "4 "};
 static uint8_t button_selected[] = {0, 0, 0};
 char* const modes_str_p[] = {"PLAY", "STOP", "RECORD"};
 
-struct GUISheetRow_t
-{
-    uint8_t row_register;
-    
-};
-
 const char tones[] = {'C', 'D', 'E', 'F', 'G', 'A', 'H', 'C'};
 static uint8_t sheet_row_regs[5] = {0, 0, 0, 0, 0};
 
