@@ -47,12 +47,12 @@ As mentioned above, due to GPIO restriction of used MCU, we used a shift registe
 
 #### Xylophone board schematic:
 <p align="center">
-<img src="img/xylophone_board.svg" alt="Xylophone_circuit" width="400px" height="auto">
+<img src="img/xylophone_board.svg" alt="Xylophone_circuit" width="800px" height="auto">
 </p>
 
 #### Arduino circuit:
 <p align="center">
-<img src="img/circuit.png" alt="Arduino_circuit"  width="400px" height="auto">
+<img src="img/circuit.png" alt="Arduino_circuit"  width="800px" height="auto">
 </p>
 
 ## Software description
