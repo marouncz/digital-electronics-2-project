@@ -1,6 +1,6 @@
 /**
  * @file pin_definition.h
- * @code #include <timer.h> @endcode
+ * @code #include <pin_definition.h> @endcode
  * @author Miloslav Kužela (240648@vut.cz)
  * @brief Pin definition header file
  * Defining all pins used for the xylophone
