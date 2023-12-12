@@ -38,11 +38,9 @@ As mentioned above, due to GPIO restriction of used MCU, we used a shift registe
 
 #### Connection diagram:
 <p align="center">
-<picture>
- <source media="(prefers-color-scheme: dark)" srcset="">
- <source media="(prefers-color-scheme: light)" srcset="img/Theoretical_diagram.svg_light.svg">
- <img alt="Xylophone_diagram" src="img/Theoretical_diagram.svg">
-</picture>
+<source media="(prefers-color-scheme: dark)" srcset="">
+<source media="(prefers-color-scheme: light)" srcset="img/Theoretical_diagram.svg_light.svg">
+<img alt="Xylophone_diagram" src="img/Theoretical_diagram.svg">
 </p>
 
 
