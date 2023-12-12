@@ -46,10 +46,14 @@ As mentioned above, due to GPIO restriction of used MCU, we used a shift registe
 
 
 #### Xylophone board schematic:
-<img src="img/xylophone_board.svg" alt="Xylophone_circuit" width="400px" height="auto" align="center">
+<p align="center">
+<img src="img/xylophone_board.svg" alt="Xylophone_circuit" width="400px" height="auto">
+</p>
 
 #### Arduino circuit:
-<img src="img/circuit.png" alt="Arduino_circuit"  width="400px" height="auto" align="center">
+<p align="center">
+<img src="img/circuit.png" alt="Arduino_circuit"  width="400px" height="auto">
+</p>
 
 ## Software description
 Full software doxygen documentation available at [Xylophone DOC](https://marouncz.github.io/digital-electronics-2-project/).
