@@ -1,4 +1,4 @@
-<!--HTML styling -->
+<!--HTML styling !-->
 <style>
 .custom-image {
   width: 700px;
