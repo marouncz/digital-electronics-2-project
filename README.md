@@ -143,7 +143,7 @@ This then repeats again every ***4ms***. Every note stays on for ***4 loops***, 
 <picture>
 <p align="center">
   <source media="(prefers-color-scheme: dark)" srcset="img/Counter_overflow_interupt.svg">
-  <img alt="Flowchart" src="img/Counter_overflow_interupt_light.svg">
+  <img alt="Flowchart" src="img/Counter_overflow_interupt_white.svg">
 </p>
 </picture>
 
