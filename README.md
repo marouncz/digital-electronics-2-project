@@ -139,14 +139,12 @@ Function then continues and checks if the playback mode is set, If it is then it
 This then repeats again every ***4ms***. Every note stays on for ***4 loops***, which is ***16ms***. Holding the button for any longer will not effect this. It is possible to play during the playback phase, because both algorithms write into the same temporary output register which is later sent to the output.
 
 #### Basic flowchart describing the timer overflow handling:
-
+<p align="center">
 <picture>
-
   <source media="(prefers-color-scheme: dark)" srcset="img/Counter_overflow_interupt.svg">
   <img alt="Flowchart" src="img/Counter_overflow_interupt_white.svg">
-
 </picture>
-
+</p>
 
 ## Instructions
 ### 1. Powering on
